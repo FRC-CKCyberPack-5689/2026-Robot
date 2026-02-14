@@ -21,9 +21,24 @@ public final class RMap {
     }
 
     public static class MotorConstants {
-        public static final int kFRONT_LEFT_WHEEL_ID = 100;
-        public static final int kFRONT_RIGHT_WHEEL_ID = 101;
-        public static final int kBACK_LEFT_WHEEL_ID = 102;
-        public static final int kBACK_RIGHT_WHEEL_ID = 103;
+        // Ids
+        public static final int kFRONT_LEFT_WHEEL_ID = 3;
+        public static final int kFRONT_RIGHT_WHEEL_ID = 4;
+        public static final int kBACK_LEFT_WHEEL_ID = 5;
+        public static final int kBACK_RIGHT_WHEEL_ID = 6;
+        
+        public static final int kINTAKE_ID = 7;
+        public static final int kINTAKE_PIVOT_ID = 8;
+
+        public static final int kSHOOTER_INTAKE_ID = -1;
+        public static final int kSHOOTER_LAUNCHER_ID = -1;
+
+        // Speeds
+        public static final double kSHOOTER_LAUNCHER_SPEED = -0.6;
+        public static final double kSHOOTER_INTAKE_SPEED = -0.6;
+
+        // Currents
+        public static final double kINTAKE_PIVOT_CURRENT = 0.5;
+        public static final double kINTAKE_SPEED = 0.75;
     }
 }

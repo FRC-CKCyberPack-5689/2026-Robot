@@ -5,7 +5,13 @@
 package frc.robot;
 
 import frc.robot.commands.TeleDrive;
+import frc.robot.commands.TeleIntake;
+import frc.robot.commands.TeleShooter;
+
 import frc.robot.subsystems.DriveTrain;
+import frc.robot.subsystems.Intake;
+import frc.robot.subsystems.Shooter;
+
 import edu.wpi.first.wpilibj.ADIS16470_IMU;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 
@@ -18,6 +24,9 @@ import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 public class RobotContainer {
     // Main components of the robot
     public static DriveTrain driveTrain;
+    public static Intake intake;
+    public static Shooter shooter;
+
     public static ADIS16470_IMU gyro;
     public static CommandXboxController controller;
 
@@ -33,5 +42,7 @@ public class RobotContainer {
     // Map the controller to the functions of the robot
     private void configureBindings() {
         driveTrain.setDefaultCommand(new TeleDrive());
+        controller.x().whileTrue(new TeleIntake());
+        controller.y().whileTrue(new TeleShooter());
     }
 }

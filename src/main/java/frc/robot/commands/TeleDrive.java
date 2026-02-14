@@ -7,7 +7,7 @@ import frc.robot.RobotContainer;
 
 // Note:
 // If the robot has a "head" it will drive from its own perspective
-// If the robot is "headless" it will drive frm the driver's perspective
+// If the robot is "headless" it will drive from the driver's perspective
 
 // This command handles movement during the tele-op phase
 // of a game.
@@ -92,6 +92,7 @@ public class TeleDrive extends Command {
         } else {
             // User IS NOT actively turning, maintain the desired rotation
             // Apply a correction based on how far we are from it
+            // kP is how "quickly" we apply the correction
             double kP = 0.01;
             double error = kP * (desiredHeading - newHeading);
             return error;
