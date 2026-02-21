@@ -6,7 +6,10 @@ package frc.robot.subsystems;
 
 import com.revrobotics.spark.SparkMax;
 import com.revrobotics.spark.SparkLowLevel.MotorType;
+import com.revrobotics.spark.config.SparkMaxConfig;
+import com.revrobotics.PersistMode;
 import com.revrobotics.RelativeEncoder;
+import com.revrobotics.ResetMode;
 
 import edu.wpi.first.wpilibj.drive.MecanumDrive;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -40,6 +43,11 @@ public class DriveTrain extends SubsystemBase {
         m_frontRight = new SparkMax(MotorConstants.kFRONT_RIGHT_WHEEL_ID, MotorType.kBrushless);
         m_backLeft = new SparkMax(MotorConstants.kBACK_LEFT_WHEEL_ID, MotorType.kBrushless);
         m_backRight = new SparkMax(MotorConstants.kBACK_RIGHT_WHEEL_ID, MotorType.kBrushless);
+
+        SparkMaxConfig invertMotorConfig = new SparkMaxConfig();
+        invertMotorConfig.inverted(true);
+        m_frontRight.configure(invertMotorConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
+        m_backRight.configure(invertMotorConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
 
         // Get encoders
         m_frontLeftEncoder = m_frontLeft.getEncoder();
