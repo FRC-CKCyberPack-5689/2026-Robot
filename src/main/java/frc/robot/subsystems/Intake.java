@@ -20,10 +20,10 @@ public class Intake extends SubsystemBase {
 
     // Create a new intake
     public Intake() {
-        pivotController = m_intakePivot.getClosedLoopController();
-
-        m_intake = new SparkMax(MotorConstants.kINTAKE_ID, MotorType.kBrushless);
         m_intakePivot = new SparkMax(MotorConstants.kINTAKE_PIVOT_ID, MotorType.kBrushless); 
+        pivotController = m_intakePivot.getClosedLoopController();
+        
+        m_intake = new SparkMax(MotorConstants.kINTAKE_ID, MotorType.kBrushless);
     }
 
     public void setPivotCurrent(double current) {

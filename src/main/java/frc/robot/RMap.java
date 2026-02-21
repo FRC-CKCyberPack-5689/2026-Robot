@@ -22,16 +22,16 @@ public final class RMap {
 
     public static class MotorConstants {
         // Ids
-        public static final int kFRONT_LEFT_WHEEL_ID = 3;
-        public static final int kFRONT_RIGHT_WHEEL_ID = 4;
-        public static final int kBACK_LEFT_WHEEL_ID = 5;
-        public static final int kBACK_RIGHT_WHEEL_ID = 6;
+        public static final int kFRONT_LEFT_WHEEL_ID = 2;
+        public static final int kFRONT_RIGHT_WHEEL_ID = 3;
+        public static final int kBACK_LEFT_WHEEL_ID = 4;
+        public static final int kBACK_RIGHT_WHEEL_ID = 5;
         
         public static final int kINTAKE_ID = 7;
         public static final int kINTAKE_PIVOT_ID = 8;
 
-        public static final int kSHOOTER_INTAKE_ID = -1;
-        public static final int kSHOOTER_LAUNCHER_ID = -1;
+        public static final int kSHOOTER_INTAKE_ID = 9;
+        public static final int kSHOOTER_LAUNCHER_ID = 10;
 
         // Speeds
         public static final double kSHOOTER_LAUNCHER_SPEED = -0.6;

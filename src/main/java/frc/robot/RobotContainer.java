@@ -36,6 +36,9 @@ public class RobotContainer {
         gyro = new ADIS16470_IMU();
         controller = new CommandXboxController(RMap.OperatorConstants.kDRIVER_CONTROLLER_PORT);
 
+        intake = new Intake();
+        shooter = new Shooter();
+        
         configureBindings();
     }
 

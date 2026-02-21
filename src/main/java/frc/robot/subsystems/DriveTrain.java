@@ -94,4 +94,9 @@ public class DriveTrain extends SubsystemBase {
 
         return invertedGyroAngle;
     }
+
+    public void drive(double x,double y,double z) {
+        mecanumDrive.driveCartesian(x,y,z);
+    }
+
 }

@@ -19,7 +19,7 @@ public class TeleDrive extends Command {
 
     // Main methods
     public TeleDrive() {
-        addRequirements(getRequirements());
+        addRequirements(RobotContainer.driveTrain);
     }
 
     @Override
@@ -35,15 +35,17 @@ public class TeleDrive extends Command {
         forwardSpeed = calculateDriveAxis(-RobotContainer.controller.getLeftY(), forwardSpeed);
         strafeSpeed = calculateDriveAxis(RobotContainer.controller.getLeftX(), strafeSpeed);
         rotationSpeed = calculateDriveTheta(RobotContainer.controller.getRightX());
+        RobotContainer.driveTrain.drive(forwardSpeed, strafeSpeed, rotationSpeed);
+        System.out.println(forwardSpeed);
     }
 
     /**
      * Calculates a ramped and clipped motor speed from
      * the controller's stick input.
      * 
-     * @param input Controller stick input
+     * @param input        Controller stick input
      * @param currentSpeed Current axis speed of robot
-     * @return Ramped and clipped motor speed 
+     * @return Ramped and clipped motor speed
      */
     public double calculateDriveAxis(double input, double currentSpeed) {
         double i = Math.abs(input);
@@ -54,12 +56,14 @@ public class TeleDrive extends Command {
 
         // If our input is greater than our current speed, we should accelerate.
         // Otherwise, we should decelerate
-        if (i > c) {
-            // Accelerate
-            i = Math.min(i, c + RMap.DriveConstants.kDRIVE_MAX_ACCELERATION);
-        } else {
-            // Decelerate
-            i = Math.max(i, c + RMap.DriveConstants.kDRIVE_MAX_DECELERATION);
+        if (i != 0) {
+            if (i > c) {
+                // Accelerate
+                i = Math.min(i, c + RMap.DriveConstants.kDRIVE_MAX_ACCELERATION);
+            } else {
+                // Decelerate
+                i = Math.max(i, c + RMap.DriveConstants.kDRIVE_MAX_DECELERATION);
+            }
         }
 
         // Custom speed control
