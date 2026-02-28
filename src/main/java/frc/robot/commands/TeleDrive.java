@@ -35,19 +35,20 @@ public class TeleDrive extends Command {
         forwardSpeed = calculateDriveAxis(-RobotContainer.controller.getLeftY(), forwardSpeed);
         strafeSpeed = calculateDriveAxis(RobotContainer.controller.getLeftX(), strafeSpeed);
         rotationSpeed = calculateDriveTheta(RobotContainer.controller.getRightX());
+
+        // Drive!
         RobotContainer.driveTrain.drive(forwardSpeed, strafeSpeed, rotationSpeed);
-        System.out.println(forwardSpeed);
     }
 
     /**
      * Calculates a ramped and clipped motor speed from
      * the controller's stick input.
      * 
-     * @param input        Controller stick input
+     * @param input Controller stick input
      * @param currentSpeed Current axis speed of robot
      * @return Ramped and clipped motor speed
      */
-    public double calculateDriveAxis(double input, double currentSpeed) {
+    public static double calculateDriveAxis(double input, double currentSpeed) {
         double i = Math.abs(input);
         double c = Math.abs(currentSpeed);
 
@@ -99,6 +100,7 @@ public class TeleDrive extends Command {
             // kP is how "quickly" we apply the correction
             double kP = 0.01;
             double error = kP * (desiredHeading - newHeading);
+            error = MathUtil.applyDeadband(error, RMap.DriveConstants.kDRIVE_DEADBAND);
             return error;
         }
     }

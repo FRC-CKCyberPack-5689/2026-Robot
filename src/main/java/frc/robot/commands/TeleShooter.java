@@ -20,4 +20,10 @@ public class TeleShooter extends Command {
         RobotContainer.shooter.setIntakeSpeed(MotorConstants.kSHOOTER_INTAKE_SPEED);
         RobotContainer.shooter.setLauncherSpeed(MotorConstants.kSHOOTER_LAUNCHER_SPEED);
     }
+
+    @Override
+    public void end(boolean interupted) {
+        RobotContainer.shooter.setIntakeSpeed(0);
+        RobotContainer.shooter.setLauncherSpeed(0);
+    }
 }

@@ -44,10 +44,17 @@ public class DriveTrain extends SubsystemBase {
         m_backLeft = new SparkMax(MotorConstants.kBACK_LEFT_WHEEL_ID, MotorType.kBrushless);
         m_backRight = new SparkMax(MotorConstants.kBACK_RIGHT_WHEEL_ID, MotorType.kBrushless);
 
+        // Motors on the right of the robot are INVERTED
+        // Motors on the left are NOT INVERTED
         SparkMaxConfig invertMotorConfig = new SparkMaxConfig();
         invertMotorConfig.inverted(true);
+        SparkMaxConfig nonInvertedMotorConfig = new SparkMaxConfig();
+        nonInvertedMotorConfig.inverted(false);
+
         m_frontRight.configure(invertMotorConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
         m_backRight.configure(invertMotorConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
+        m_frontLeft.configure(nonInvertedMotorConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
+        m_backLeft.configure(nonInvertedMotorConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
 
         // Get encoders
         m_frontLeftEncoder = m_frontLeft.getEncoder();
@@ -103,8 +110,7 @@ public class DriveTrain extends SubsystemBase {
         return invertedGyroAngle;
     }
 
-    public void drive(double x,double y,double z) {
-        mecanumDrive.driveCartesian(x,y,z);
+    public void drive(double x, double y, double z) {
+        mecanumDrive.driveCartesian(x, y, z);
     }
-
 }

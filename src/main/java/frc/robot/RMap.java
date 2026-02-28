@@ -16,8 +16,8 @@ public final class RMap {
     public static class DriveConstants {
         public static final double kDRIVE_DEADBAND = 0.05;
         public static final double kDRIVE_MAX_SPEED = 1;
-        public static final double kDRIVE_MAX_ACCELERATION = 0.02;
-        public static final double kDRIVE_MAX_DECELERATION = 0.04;
+        public static final double kDRIVE_MAX_ACCELERATION = 0.01;
+        public static final double kDRIVE_MAX_DECELERATION = 0.02;
     }
 
     public static class MotorConstants {
@@ -28,17 +28,25 @@ public final class RMap {
         public static final int kBACK_RIGHT_WHEEL_ID = 5;
         
         public static final int kINTAKE_ID = 7;
-        public static final int kINTAKE_PIVOT_ID = 8;
+        public static final int kINTAKE_ARM_ID = 8;
 
         public static final int kSHOOTER_INTAKE_ID = 9;
         public static final int kSHOOTER_LAUNCHER_ID = 10;
 
         // Speeds
-        public static final double kSHOOTER_LAUNCHER_SPEED = -0.6;
-        public static final double kSHOOTER_INTAKE_SPEED = -0.6;
+        public static final double kSHOOTER_LAUNCHER_SPEED = -0.8;
+        public static final double kSHOOTER_INTAKE_SPEED = -0.8;
 
         // Currents
-        public static final double kINTAKE_PIVOT_CURRENT = 0.5;
-        public static final double kINTAKE_SPEED = 0.75;
+        public static final double kINTAKE_ARM_CURRENT = 0.5;
+        public static final double kINTAKE_SPEED = -0.4;
+
+        // Intake Arm
+        public static final double kINTAKE_ARM_P = 0;
+        public static final double kINTAKE_ARM_I = 0;
+        public static final double kINTAKE_ARM_D = 0;
+
+        public static final double kINTAKE_ARM_OUTPUT_MIN = -0.25;
+        public static final double kINTAKE_ARM_OUTPUT_MAX = 1.0;
     }
 }
