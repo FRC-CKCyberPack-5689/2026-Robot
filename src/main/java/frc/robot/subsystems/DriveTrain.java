@@ -110,6 +110,8 @@ public class DriveTrain extends SubsystemBase {
         return invertedGyroAngle;
     }
 
+    // Makes the robot actually drive
+    // Kind of important for a robot
     public void drive(double x, double y, double z) {
         mecanumDrive.driveCartesian(x, y, z);
     }

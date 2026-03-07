@@ -1,26 +1,35 @@
 package frc.robot.subsystems;
 
 import com.revrobotics.spark.SparkLowLevel.MotorType;
+import com.revrobotics.spark.SparkFlex;
 import com.revrobotics.spark.SparkMax;
 
+import edu.wpi.first.networktables.GenericEntry;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
+import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
+import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.RobotContainer;
 import frc.robot.RMap.MotorConstants;
 
 public class Shooter extends SubsystemBase {
     private SparkMax m_intake;
-    private SparkMax m_launcher;
+    private SparkFlex m_launcher;
 
     private double targetYaw;
     private boolean targetVisible;
     private Alliance currentAlliance;
 
+    private ShuffleboardTab tab = Shuffleboard.getTab("Shooter");
+    public GenericEntry launcherSpeed =
+        tab.add("Launcher Speed", 0.8)
+            .getEntry();
+
     // Create a new shooter
     public Shooter() {
         m_intake = new SparkMax(MotorConstants.kSHOOTER_INTAKE_ID, MotorType.kBrushless);
-        m_launcher = new SparkMax(MotorConstants.kSHOOTER_LAUNCHER_ID, MotorType.kBrushless);
+        m_launcher = new SparkFlex(MotorConstants.kSHOOTER_LAUNCHER_ID, MotorType.kBrushless);
 
         targetYaw = 0;
         targetVisible = false;
@@ -52,9 +61,6 @@ public class Shooter extends SubsystemBase {
                 targetVisible = false;
             }
         }
-
-
-        System.out.println(targetYaw);
     }
 
     public void setLauncherSpeed(double speed) {
