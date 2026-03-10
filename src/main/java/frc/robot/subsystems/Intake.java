@@ -13,6 +13,9 @@ import com.revrobotics.spark.SparkBase.ControlType;
 import com.revrobotics.spark.SparkLowLevel.MotorType;
 import com.revrobotics.spark.config.SparkMaxConfig;
 
+import edu.wpi.first.networktables.GenericEntry;
+import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
+import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 import frc.robot.RMap.MotorConstants;
@@ -25,6 +28,11 @@ public class Intake extends SubsystemBase {
     private SparkClosedLoopController armController;
 
     private double position;
+
+    private ShuffleboardTab tab = Shuffleboard.getTab("Intake");
+    public GenericEntry intakeSpeed =
+        tab.add("Intake Speed", 0.8)
+            .getEntry();
 
     // Create a new intake
     public Intake() {

@@ -48,11 +48,23 @@ public class RobotContainer {
     // Map the controller to the functions of the robot
     private void configureBindings() {
         driveTrain.setDefaultCommand(new TeleDrive());
-        controller.x().whileTrue(new TeleIntake());
+
+        // -----------------------------|
+        // Configure the bindings here! |
+        // -----------------------------|
+
+        // Shooter
         controller.y().whileTrue(new TeleShooter());
+        
+        // Intake Motor
+        controller.x().whileTrue(new TeleIntake());
+
+        // Intake Arm: Pos A
         controller.a().onTrue(new InstantCommand(() -> {
             intake.setArmPosition(10);
         }));
+
+        // Intake Arm: Pos B
         controller.b().onTrue(new InstantCommand(() -> {
             intake.setArmPosition(0);
         }));

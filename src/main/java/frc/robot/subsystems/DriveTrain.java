@@ -8,14 +8,11 @@ import com.revrobotics.spark.SparkMax;
 import com.revrobotics.spark.SparkLowLevel.MotorType;
 import com.revrobotics.spark.config.SparkMaxConfig;
 import com.revrobotics.PersistMode;
-import com.revrobotics.RelativeEncoder;
 import com.revrobotics.ResetMode;
 
 import edu.wpi.first.wpilibj.drive.MecanumDrive;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
-import edu.wpi.first.math.geometry.Translation2d;
-import edu.wpi.first.math.kinematics.MecanumDriveKinematics;
 import frc.robot.RMap.MotorConstants;
 import frc.robot.RMap.DriveConstants;
 import frc.robot.RobotContainer;
@@ -31,10 +28,10 @@ public class DriveTrain extends SubsystemBase {
     private SparkMax m_backRight;
 
     // Allow the motors to be measured and tracked
-    private RelativeEncoder m_frontLeftEncoder;
-    private RelativeEncoder m_frontRightEncoder;
-    private RelativeEncoder m_backLeftEncoder;
-    private RelativeEncoder m_backRightEncoder;
+    //private RelativeEncoder m_frontLeftEncoder;
+    //private RelativeEncoder m_frontRightEncoder;
+    //private RelativeEncoder m_backLeftEncoder;
+    //private RelativeEncoder m_backRightEncoder;
   
     // Create a new drive train
     public DriveTrain() {
@@ -57,10 +54,10 @@ public class DriveTrain extends SubsystemBase {
         m_backLeft.configure(nonInvertedMotorConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
 
         // Get encoders
-        m_frontLeftEncoder = m_frontLeft.getEncoder();
-        m_frontRightEncoder = m_frontRight.getEncoder();
-        m_backLeftEncoder = m_backLeft.getEncoder();
-        m_backRightEncoder = m_backRight.getEncoder();
+        // m_frontLeftEncoder = m_frontLeft.getEncoder();
+        // m_frontRightEncoder = m_frontRight.getEncoder();
+        // m_backLeftEncoder = m_backLeft.getEncoder();
+        // m_backRightEncoder = m_backRight.getEncoder();
 
         // Create the drive
         mecanumDrive = new MecanumDrive(
@@ -74,16 +71,16 @@ public class DriveTrain extends SubsystemBase {
         // Setup Kinematics
         // Locations of the wheels relative to the robot center
         // +X/-X is forward/backward, +Y/-Y is left/right
-        Translation2d m_frontLeftLocation = new Translation2d(0.381, 0.381);
-        Translation2d m_frontRightLocation = new Translation2d(0.381, -0.381);
-        Translation2d m_backLeftLocation = new Translation2d(-0.381, 0.381);
-        Translation2d m_backRightLocation = new Translation2d(-0.381, -0.381);
+        //Translation2d m_frontLeftLocation = new Translation2d(0.381, 0.381);
+        //Translation2d m_frontRightLocation = new Translation2d(0.381, -0.381);
+        //Translation2d m_backLeftLocation = new Translation2d(-0.381, 0.381);
+        //Translation2d m_backRightLocation = new Translation2d(-0.381, -0.381);
 
         // Create the kinematics object using wheel locations
-        MecanumDriveKinematics m_kinematics = new MecanumDriveKinematics(
-            m_frontLeftLocation, m_frontRightLocation, 
-            m_backLeftLocation, m_backRightLocation
-        );
+        //MecanumDriveKinematics m_kinematics = new MecanumDriveKinematics(
+          //  m_frontLeftLocation, m_frontRightLocation, 
+            //m_backLeftLocation, m_backRightLocation
+        //);
 
         // Create the odometry object from the kinematics object and the initial wheel positions
         // too complicated for now
