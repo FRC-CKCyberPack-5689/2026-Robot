@@ -18,7 +18,9 @@ import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
-import frc.robot.RMap.MotorConstants;
+import frc.robot.RMap.MotorIds;
+import frc.robot.RMap.IntakeConstants;
+
 
 public class Intake extends SubsystemBase {
     private SparkFlex m_intake;
@@ -36,20 +38,20 @@ public class Intake extends SubsystemBase {
 
     // Create a new intake
     public Intake() {
-        m_intake = new SparkFlex(MotorConstants.kINTAKE_ID, MotorType.kBrushless);
+        m_intake = new SparkFlex(MotorIds.kINTAKE_ID, MotorType.kBrushless);
 
         // Intake Arm
-        m_intakeArm = new SparkMax(MotorConstants.kINTAKE_ARM_ID, MotorType.kBrushless); 
+        m_intakeArm = new SparkMax(MotorIds.kINTAKE_ARM_ID, MotorType.kBrushless); 
         armController = m_intakeArm.getClosedLoopController();
 
         intakeArmConfig = new SparkMaxConfig();
         intakeArmConfig.closedLoop
-            .p(MotorConstants.kINTAKE_ARM_P)
-            .i(MotorConstants.kINTAKE_ARM_I)
-            .d(MotorConstants.kINTAKE_ARM_D);
+            .p(IntakeConstants.kARM_P)
+            .i(IntakeConstants.kARM_I)
+            .d(IntakeConstants.kARM_D);
         intakeArmConfig.closedLoop.outputRange(
-            MotorConstants.kINTAKE_ARM_OUTPUT_MIN, 
-            MotorConstants.kINTAKE_ARM_OUTPUT_MAX
+            IntakeConstants.kARM_OUTPUT_MIN, 
+            IntakeConstants.kARM_OUTPUT_MAX
         );
         intakeArmConfig.softLimit.forwardSoftLimit(10).forwardSoftLimitEnabled(true);
         intakeArmConfig.inverted(true);

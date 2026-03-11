@@ -2,7 +2,7 @@ package frc.robot.commands;
 
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.Command;
-import frc.robot.RMap.MotorConstants;
+import frc.robot.RMap.ShooterConstants;
 import frc.robot.RobotContainer;
 
 // This command handles the shooter during the tele-op phase
@@ -31,8 +31,8 @@ public class TeleShooter extends Command {
         double currentTime = Timer.getFPGATimestamp();
         double deltaTime = currentTime - startTime;
 
-        if (deltaTime > MotorConstants.kSHOOTER_INTAKE_DELAY) {
-            RobotContainer.shooter.setIntakeSpeed(-MotorConstants.kSHOOTER_INTAKE_SPEED);
+        if (deltaTime > ShooterConstants.kINTAKE_DELAY) {
+            RobotContainer.shooter.setIntakeSpeed(-ShooterConstants.kINTAKE_SPEED);
         }
     }
 

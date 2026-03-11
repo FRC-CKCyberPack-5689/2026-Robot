@@ -13,7 +13,7 @@ import com.revrobotics.ResetMode;
 import edu.wpi.first.wpilibj.drive.MecanumDrive;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
-import frc.robot.RMap.MotorConstants;
+import frc.robot.RMap.MotorIds;
 import frc.robot.RMap.DriveConstants;
 import frc.robot.RobotContainer;
 
@@ -36,10 +36,10 @@ public class DriveTrain extends SubsystemBase {
     // Create a new drive train
     public DriveTrain() {
         // Create motors
-        m_frontLeft = new SparkMax(MotorConstants.kFRONT_LEFT_WHEEL_ID, MotorType.kBrushless);
-        m_frontRight = new SparkMax(MotorConstants.kFRONT_RIGHT_WHEEL_ID, MotorType.kBrushless);
-        m_backLeft = new SparkMax(MotorConstants.kBACK_LEFT_WHEEL_ID, MotorType.kBrushless);
-        m_backRight = new SparkMax(MotorConstants.kBACK_RIGHT_WHEEL_ID, MotorType.kBrushless);
+        m_frontLeft = new SparkMax(MotorIds.kFRONT_LEFT_WHEEL_ID, MotorType.kBrushless);
+        m_frontRight = new SparkMax(MotorIds.kFRONT_RIGHT_WHEEL_ID, MotorType.kBrushless);
+        m_backLeft = new SparkMax(MotorIds.kBACK_LEFT_WHEEL_ID, MotorType.kBrushless);
+        m_backRight = new SparkMax(MotorIds.kBACK_RIGHT_WHEEL_ID, MotorType.kBrushless);
 
         // Motors on the right of the robot are INVERTED
         // Motors on the left are NOT INVERTED
@@ -66,7 +66,7 @@ public class DriveTrain extends SubsystemBase {
         );
         // Prevents the motor from constantly starting and stopping
         // by considering low values as completely off
-        mecanumDrive.setDeadband(DriveConstants.kDRIVE_DEADBAND);
+        mecanumDrive.setDeadband(DriveConstants.kDEADBAND);
 
         // Setup Kinematics
         // Locations of the wheels relative to the robot center

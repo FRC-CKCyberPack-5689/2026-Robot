@@ -27,6 +27,10 @@ public class TeleDrive extends Command {
         forwardSpeed = 0;
         strafeSpeed = 0;
         rotationSpeed = 0;
+
+        // Stop the robot from "jumping" if it is
+        // rotated before it starts up.
+        desiredHeading = RobotContainer.driveTrain.getHeading();
     }
 
     @Override
@@ -53,22 +57,62 @@ public class TeleDrive extends Command {
         double c = Math.abs(currentSpeed);
 
         // Stop joystick drift
-        i = MathUtil.applyDeadband(i, RMap.DriveConstants.kDRIVE_DEADBAND);
+        i = MathUtil.applyDeadband(i, RMap.DriveConstants.kDEADBAND);
 
         // If our input is greater than our current speed, we should accelerate.
         // Otherwise, we should decelerate
         if (i != 0) {
             if (i > c) {
                 // Accelerate
-                i = Math.min(i, c + RMap.DriveConstants.kDRIVE_MAX_ACCELERATION);
+                i = Math.min(i, c + RMap.DriveConstants.kAXIS_ACCELERATION);
             } else {
                 // Decelerate
-                i = Math.max(i, c + RMap.DriveConstants.kDRIVE_MAX_DECELERATION);
+                i = Math.max(i, c + RMap.DriveConstants.kAXIS_DECELERATION);
             }
         }
 
         // Custom speed control
-        i *= RMap.DriveConstants.kDRIVE_MAX_SPEED;
+        i *= RMap.DriveConstants.kAXIS_SPEED;
+
+        // Make i take the sign(+/-) of input
+        // This allows the code to work the same
+        // for both positive and negative inputs
+        i = Math.copySign(i, input);
+
+        return i;
+    }
+
+    /**
+     * Calculates a ramped and clipped motor speed from
+     * the controller's stick input. This is literally
+     * a mirror of the function above, but using
+     * rotation constants instead.
+     * 
+     * @param input Controller stick input
+     * @param currentSpeed Current rotation speed of robot
+     * @return Ramped and clipped motor speed
+     */
+    public static double calculateRotationAxis(double input, double currentSpeed) {
+        double i = Math.abs(input);
+        double c = Math.abs(currentSpeed);
+
+        // Stop joystick drift
+        i = MathUtil.applyDeadband(i, RMap.DriveConstants.kDEADBAND);
+
+        // If our input is greater than our current speed, we should accelerate.
+        // Otherwise, we should decelerate
+        if (i != 0) {
+            if (i > c) {
+                // Accelerate
+                i = Math.min(i, c + RMap.DriveConstants.kROTATION_ACCELERATION);
+            } else {
+                // Decelerate
+                i = Math.max(i, c + RMap.DriveConstants.kROTATION_DECELERATION);
+            }
+        }
+
+        // Custom speed control
+        i *= RMap.DriveConstants.kROTATION_SPEED;
 
         // Make i take the sign(+/-) of input
         // This allows the code to work the same
@@ -86,7 +130,7 @@ public class TeleDrive extends Command {
      * @return A ramped and clipped rotation speed
      */
     public double calculateDriveTheta(double input) {
-        double rampedMotorDrive = calculateDriveAxis(input, rotationSpeed);
+        double rampedMotorDrive = calculateRotationAxis(input, rotationSpeed);
         double newHeading = RobotContainer.driveTrain.getHeading();
 
         // Check if the user is actively using stick
@@ -100,7 +144,7 @@ public class TeleDrive extends Command {
             // kP is how "quickly" we apply the correction
             double kP = 0.01;
             double error = kP * (desiredHeading - newHeading);
-            error = MathUtil.applyDeadband(error, RMap.DriveConstants.kDRIVE_DEADBAND);
+            error = MathUtil.applyDeadband(error, RMap.DriveConstants.kDEADBAND);
             return error;
         }
     }

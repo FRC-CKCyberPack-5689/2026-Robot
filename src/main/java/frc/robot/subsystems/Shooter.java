@@ -11,7 +11,7 @@ import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.RobotContainer;
-import frc.robot.RMap.MotorConstants;
+import frc.robot.RMap.MotorIds;
 
 public class Shooter extends SubsystemBase {
     private SparkMax m_intake;
@@ -28,8 +28,8 @@ public class Shooter extends SubsystemBase {
 
     // Create a new shooter
     public Shooter() {
-        m_intake = new SparkMax(MotorConstants.kSHOOTER_INTAKE_ID, MotorType.kBrushless);
-        m_launcher = new SparkFlex(MotorConstants.kSHOOTER_LAUNCHER_ID, MotorType.kBrushless);
+        m_intake = new SparkMax(MotorIds.kSHOOTER_INTAKE_ID, MotorType.kBrushless);
+        m_launcher = new SparkFlex(MotorIds.kSHOOTER_LAUNCHER_ID, MotorType.kBrushless);
 
         targetYaw = 0;
         targetVisible = false;
