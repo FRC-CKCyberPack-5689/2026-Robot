@@ -18,8 +18,8 @@ public class AutoShoot extends Command {
 
     @Override
     public void execute() {
-        forwardSpeed = TeleDrive.calculateDriveAxis(-RobotContainer.controller.getLeftY(), forwardSpeed);
-        strafeSpeed = TeleDrive.calculateDriveAxis(RobotContainer.controller.getLeftX(), strafeSpeed);
+        //forwardSpeed = TeleDrive.calculateDriveAxis(-RobotContainer.controller.getLeftY(), forwardSpeed);
+        //strafeSpeed = TeleDrive.calculateDriveAxis(RobotContainer.controller.getLeftX(), strafeSpeed);
 
         // Turn towards the target
         double kP = 0.01;

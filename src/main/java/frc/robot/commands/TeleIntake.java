@@ -18,8 +18,8 @@ public class TeleIntake extends Command {
     @Override
     public void execute() {
         // Runs constantly while the button is pressed on the controller
-        RobotContainer.intake.setIntakeSpeed(RobotContainer.intake.intakeSpeed.getDouble(0.8));
-        //RobotContainer.intake.setIntakeSpeed(-RMap.MotorConstants.kINTAKE_SPEED);
+        //RobotContainer.intake.setIntakeSpeed(RobotContainer.intake.intakeSpeed.getDouble(0.8));
+        RobotContainer.intake.setIntakeSpeed(-RMap.IntakeConstants.kINTAKE_SPEED);
     }
 
     @Override

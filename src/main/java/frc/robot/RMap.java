@@ -10,7 +10,8 @@ package frc.robot;
  */
 public final class RMap {
     public static class OperatorConstants {
-        // In the USB tab of the driver station, 
+        // In the USB tab of the driver station, this is the port
+        // of our controller.
         public static final int kDRIVER_CONTROLLER_PORT = 0;
     }
 
@@ -36,8 +37,8 @@ public final class RMap {
 
         // Controls the sensitivity of the robot's directional movement
         public static final double kAXIS_SPEED = 1;
-        public static final double kAXIS_ACCELERATION = 0.005;
-        public static final double kAXIS_DECELERATION = 0.01;
+        public static final double kAXIS_ACCELERATION = 0.01;
+        public static final double kAXIS_DECELERATION = 0.02;
 
         // Controls the sensitivity of the robot's rotational movement
         public static final double kROTATION_SPEED = 1;
@@ -55,13 +56,13 @@ public final class RMap {
     }
 
     public static class IntakeConstants {
-        public static final double kINTAKE_SPEED = -0.4;
+        public static final double kINTAKE_SPEED = 0.6;
 
-        public static final double kARM_P = 0.001;
-        public static final double kARM_I = 0.002;
-        public static final double kARM_D = 0.001;
+        public static final int kARM_CURRENT_LIMIT = 20;
+        public static final double kARM_DOWN_POSITION = -0.05;
+        public static final double kARM_UP_POSITION = 0.5;
 
         public static final double kARM_OUTPUT_MIN = -0.25;
-        public static final double kARM_OUTPUT_MAX = 1.0;
+        public static final double kARM_OUTPUT_MAX = 0.25;
     }
 }

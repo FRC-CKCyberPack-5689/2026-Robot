@@ -6,16 +6,11 @@ package frc.robot.subsystems;
 
 import com.revrobotics.PersistMode;
 import com.revrobotics.ResetMode;
-import com.revrobotics.spark.SparkClosedLoopController;
 import com.revrobotics.spark.SparkFlex;
 import com.revrobotics.spark.SparkMax;
-import com.revrobotics.spark.SparkBase.ControlType;
 import com.revrobotics.spark.SparkLowLevel.MotorType;
 import com.revrobotics.spark.config.SparkMaxConfig;
 
-import edu.wpi.first.networktables.GenericEntry;
-import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
-import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 import frc.robot.RMap.MotorIds;
@@ -27,48 +22,48 @@ public class Intake extends SubsystemBase {
     private SparkMax m_intakeArm;
 
     private SparkMaxConfig intakeArmConfig;
-    private SparkClosedLoopController armController;
 
     private double position;
-
-    private ShuffleboardTab tab = Shuffleboard.getTab("Intake");
-    public GenericEntry intakeSpeed =
-        tab.add("Intake Speed", 0.8)
-            .getEntry();
+    private boolean armIsUp;
 
     // Create a new intake
     public Intake() {
         m_intake = new SparkFlex(MotorIds.kINTAKE_ID, MotorType.kBrushless);
 
         // Intake Arm
-        m_intakeArm = new SparkMax(MotorIds.kINTAKE_ARM_ID, MotorType.kBrushless); 
-        armController = m_intakeArm.getClosedLoopController();
+        m_intakeArm = new SparkMax(MotorIds.kINTAKE_ARM_ID, MotorType.kBrushless);
 
         intakeArmConfig = new SparkMaxConfig();
-        intakeArmConfig.closedLoop
-            .p(IntakeConstants.kARM_P)
-            .i(IntakeConstants.kARM_I)
-            .d(IntakeConstants.kARM_D);
         intakeArmConfig.closedLoop.outputRange(
             IntakeConstants.kARM_OUTPUT_MIN, 
             IntakeConstants.kARM_OUTPUT_MAX
         );
-        intakeArmConfig.softLimit.forwardSoftLimit(10).forwardSoftLimitEnabled(true);
+        intakeArmConfig.smartCurrentLimit(IntakeConstants.kARM_CURRENT_LIMIT, 2);
         intakeArmConfig.inverted(true);
 
-
         m_intakeArm.configure(intakeArmConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
-        position = 0;
+
+        // The intake arm starts up.
+        position = IntakeConstants.kARM_UP_POSITION;
+        armIsUp = true;
     }
 
     @Override
     public void periodic() {
-        // The arm is disabled right now since it is not tuned correctly.
-        //armController.setSetpoint(position, ControlType.kPosition);
+        m_intakeArm.set(position);
     }
 
-    public void setArmPosition(double newposition) {
-        //position = newposition;
+    /// Toggles the position of the arm, moving it into
+    /// the up state if it is down, or moving it into
+    /// the down state if it is up.
+    public void toggleArmPosition() {
+        if (armIsUp) {
+            position = IntakeConstants.kARM_DOWN_POSITION;
+        } else {
+            position = IntakeConstants.kARM_UP_POSITION;
+        }
+
+        armIsUp = !armIsUp;
     }
 
     public void setIntakeSpeed(double speed) {

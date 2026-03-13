@@ -4,6 +4,7 @@
 
 package frc.robot;
 
+import frc.robot.commands.AutoShoot;
 import frc.robot.commands.TeleDrive;
 import frc.robot.commands.TeleIntake;
 import frc.robot.commands.TeleShooter;
@@ -49,24 +50,22 @@ public class RobotContainer {
     private void configureBindings() {
         driveTrain.setDefaultCommand(new TeleDrive());
 
-        // -----------------------------|
-        // Configure the bindings here! |
-        // -----------------------------|
+        // |------------------------------|
+        // | Configure the bindings here! |
+        // |------------------------------|
 
-        // Shooter
-        controller.y().whileTrue(new TeleShooter());
+        // Shooter Activation
+        controller.rightTrigger().whileTrue(new TeleShooter());
+
+        // Shooter Auto-Aim
+        //controller.rightBumper().whileTrue(new AutoShoot());
         
         // Intake Motor
-        controller.x().whileTrue(new TeleIntake());
+        controller.leftTrigger().whileTrue(new TeleIntake());
 
-        // Intake Arm: Pos A
+        // Intake Arm Toggle
         controller.a().onTrue(new InstantCommand(() -> {
-            intake.setArmPosition(10);
-        }));
-
-        // Intake Arm: Pos B
-        controller.b().onTrue(new InstantCommand(() -> {
-            intake.setArmPosition(0);
+            intake.toggleArmPosition();
         }));
     }
 }

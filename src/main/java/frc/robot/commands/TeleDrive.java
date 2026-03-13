@@ -36,12 +36,17 @@ public class TeleDrive extends Command {
     @Override
     public void execute() {
         // Update the speeds based on the controller
-        forwardSpeed = calculateDriveAxis(-RobotContainer.controller.getLeftY(), forwardSpeed);
-        strafeSpeed = calculateDriveAxis(RobotContainer.controller.getLeftX(), strafeSpeed);
-        rotationSpeed = calculateDriveTheta(RobotContainer.controller.getRightX());
+        // forwardSpeed = calculateDriveAxis(-RobotContainer.controller.getLeftY(), forwardSpeed);
+        // strafeSpeed = calculateDriveAxis(RobotContainer.controller.getLeftX(), strafeSpeed);
+        // rotationSpeed = calculateDriveTheta(RobotContainer.controller.getRightX());
 
+        newDrive(
+            -RobotContainer.controller.getLeftY(), 
+            RobotContainer.controller.getLeftX(), 
+            RobotContainer.controller.getRightX()
+        );
         // Drive!
-        RobotContainer.driveTrain.drive(forwardSpeed, strafeSpeed, rotationSpeed);
+        //RobotContainer.driveTrain.newDrive(forwardSpeed, strafeSpeed, rotationSpeed);
     }
 
     /**
@@ -52,6 +57,7 @@ public class TeleDrive extends Command {
      * @param currentSpeed Current axis speed of robot
      * @return Ramped and clipped motor speed
      */
+    /*
     public static double calculateDriveAxis(double input, double currentSpeed) {
         double i = Math.abs(input);
         double c = Math.abs(currentSpeed);
@@ -81,6 +87,7 @@ public class TeleDrive extends Command {
 
         return i;
     }
+    */
 
     /**
      * Calculates a ramped and clipped motor speed from
@@ -92,6 +99,7 @@ public class TeleDrive extends Command {
      * @param currentSpeed Current rotation speed of robot
      * @return Ramped and clipped motor speed
      */
+    /*
     public static double calculateRotationAxis(double input, double currentSpeed) {
         double i = Math.abs(input);
         double c = Math.abs(currentSpeed);
@@ -121,7 +129,7 @@ public class TeleDrive extends Command {
 
         return i;
     }
-
+    */
     /**
      * Calculates a ramped and clipped rotation speed from
      * the controller's stick input.
@@ -129,6 +137,7 @@ public class TeleDrive extends Command {
      * @param input Controller stick input
      * @return A ramped and clipped rotation speed
      */
+    /*
     public double calculateDriveTheta(double input) {
         double rampedMotorDrive = calculateRotationAxis(input, rotationSpeed);
         double newHeading = RobotContainer.driveTrain.getHeading();
@@ -146,6 +155,41 @@ public class TeleDrive extends Command {
             double error = kP * (desiredHeading - newHeading);
             error = MathUtil.applyDeadband(error, RMap.DriveConstants.kDEADBAND);
             return error;
+        }
+    }
+    */
+    public void newDrive(double forward, double strafe, double rotation) {
+        forward = MathUtil.applyDeadband(forward, RMap.DriveConstants.kDEADBAND);
+        strafe = MathUtil.applyDeadband(strafe, RMap.DriveConstants.kDEADBAND);
+        rotation = MathUtil.applyDeadband(rotation, RMap.DriveConstants.kDEADBAND);
+
+        double smoothForward = slewRate(forward, forwardSpeed);
+        double smoothStrafe = slewRate(strafe, strafeSpeed);
+        double smoothRotation = slewRate(rotation, rotationSpeed);
+
+        forwardSpeed = smoothForward;
+        strafeSpeed = smoothStrafe;
+        rotationSpeed = smoothRotation;
+
+        RobotContainer.driveTrain.drive(forwardSpeed, strafeSpeed, rotationSpeed);
+    }
+
+    public double slewRate(double target, double current) {
+        double limit;
+
+        if (Math.abs(target) > Math.abs(current)) {
+            limit = RMap.DriveConstants.kAXIS_ACCELERATION;
+        } else {
+            limit = RMap.DriveConstants.kAXIS_DECELERATION;
+        }
+
+        double error = target - current;
+        if (error > limit) {
+            return current + limit;
+        } else if (error < -limit) {
+            return current - limit;
+        } else {
+            return target;
         }
     }
 }
