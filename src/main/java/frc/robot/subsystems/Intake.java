@@ -10,6 +10,7 @@ import com.revrobotics.spark.SparkFlex;
 import com.revrobotics.spark.SparkMax;
 import com.revrobotics.spark.SparkLowLevel.MotorType;
 import com.revrobotics.spark.config.SparkMaxConfig;
+import com.revrobotics.spark.config.SparkBaseConfig.IdleMode;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
@@ -23,7 +24,7 @@ public class Intake extends SubsystemBase {
 
     private SparkMaxConfig intakeArmConfig;
 
-    private double position;
+    public double position;
     private boolean armIsUp;
 
     // Create a new intake
@@ -40,12 +41,13 @@ public class Intake extends SubsystemBase {
         );
         intakeArmConfig.smartCurrentLimit(IntakeConstants.kARM_CURRENT_LIMIT, 2);
         intakeArmConfig.inverted(true);
+        intakeArmConfig.idleMode(IdleMode.kBrake);
 
         m_intakeArm.configure(intakeArmConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
 
         // The intake arm starts up.
-        position = IntakeConstants.kARM_UP_POSITION;
-        armIsUp = true;
+        position = IntakeConstants.kARM_DOWN_POSITION;
+        armIsUp = false;
     }
 
     @Override
@@ -66,7 +68,19 @@ public class Intake extends SubsystemBase {
         armIsUp = !armIsUp;
     }
 
+    public void makeArmGoDownPlease() {
+        ////armIsUp = false;
+        //position = IntakeConstants.kARM_DOWN_POSITION;
+    }
+
     public void setIntakeSpeed(double speed) {
+        /* 
+        if (speed != 0) {
+            makeArmGoDownPlease();
+        } else {
+            armIsUp = true;
+            position = IntakeConstants.kARM_UP_POSITION;
+        }*/
         m_intake.set(speed);
     }
 }

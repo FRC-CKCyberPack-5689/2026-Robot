@@ -29,21 +29,16 @@ public final class RMap {
 
         public static final int kSHOOTER_INTAKE_ID = 9;
         public static final int kSHOOTER_LAUNCHER_ID = 10;
+        public static final int kSHOOTER_AGGRIVATOR_ID = 11;
     }
 
     public static class DriveConstants {
         // Consider values below this as completely off.
         public static final double kDEADBAND = 0.05;
 
-        // Controls the sensitivity of the robot's directional movement
-        public static final double kAXIS_SPEED = 1;
-        public static final double kAXIS_ACCELERATION = 0.01;
-        public static final double kAXIS_DECELERATION = 0.02;
-
-        // Controls the sensitivity of the robot's rotational movement
-        public static final double kROTATION_SPEED = 1;
-        public static final double kROTATION_ACCELERATION = 0.003;
-        public static final double kROTATION_DECELERATION = 0.06;
+        // Controls the sensitivity of the robot's movement.
+        public static final double kMAX_ACCELERATION = 0.04;
+        public static final double kMAX_DECELERATION = 0.08;
     }
 
     public static class ShooterConstants {
@@ -53,12 +48,15 @@ public final class RMap {
         // Delays the startup of the shooter's intake
         // motor when the shooter is activated.
         public static final double kINTAKE_DELAY = 0.4;
+
+        //THE AGGRIVATOR SPEED VAR
+        public static final double kAGGRIVATOR_SPEED = -0.2;
     }
 
     public static class IntakeConstants {
-        public static final double kINTAKE_SPEED = 0.6;
+        public static final double kINTAKE_SPEED = 0.9;
 
-        public static final int kARM_CURRENT_LIMIT = 20;
+        public static final int kARM_CURRENT_LIMIT = 27;
         public static final double kARM_DOWN_POSITION = -0.05;
         public static final double kARM_UP_POSITION = 0.5;
 

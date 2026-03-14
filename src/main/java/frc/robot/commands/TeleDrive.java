@@ -2,193 +2,115 @@ package frc.robot.commands;
 
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.wpilibj2.command.Command;
-import frc.robot.RMap;
 import frc.robot.RobotContainer;
+import frc.robot.RMap.DriveConstants;
 
-// Note:
-// If the robot has a "head" it will drive from its own perspective
-// If the robot is "headless" it will drive from the driver's perspective
-
-// This command handles movement during the tele-op phase
-// of a game.
+/*
+ * This command handles tele-operated movement
+ * during the match.
+ * 
+ * Note: This works in "head" mode. That means it will drive
+ * from the robot's perspective, not the driver's.
+ */
 public class TeleDrive extends Command {
-    private double forwardSpeed;
-    private double strafeSpeed;
-    private double rotationSpeed;
-    private double desiredHeading;
+    private double currentForwardSpeed;
+    private double currentStrafeSpeed;
+    private double currentRotationSpeed;
 
-    // Main methods
     public TeleDrive() {
         addRequirements(RobotContainer.driveTrain);
     }
 
     @Override
     public void initialize() {
-        forwardSpeed = 0;
-        strafeSpeed = 0;
-        rotationSpeed = 0;
-
-        // Stop the robot from "jumping" if it is
-        // rotated before it starts up.
-        desiredHeading = RobotContainer.driveTrain.getHeading();
+        // Reset speeds when this command is
+        // scheduled to prevent issues.
+        currentForwardSpeed = 0;
+        currentStrafeSpeed = 0;
+        currentRotationSpeed = 0;
     }
 
     @Override
     public void execute() {
-        // Update the speeds based on the controller
-        // forwardSpeed = calculateDriveAxis(-RobotContainer.controller.getLeftY(), forwardSpeed);
-        // strafeSpeed = calculateDriveAxis(RobotContainer.controller.getLeftX(), strafeSpeed);
-        // rotationSpeed = calculateDriveTheta(RobotContainer.controller.getRightX());
+        // Read inputs from the controller
+        // The forward input has to e inverted since -Y is forwards
+        double forwardInput = -RobotContainer.controller.getLeftY();
+        double strafeInput = RobotContainer.controller.getLeftX();
+        double rotationInput = RobotContainer.controller.getRightX();
 
-        newDrive(
-            -RobotContainer.controller.getLeftY(), 
-            RobotContainer.controller.getLeftX(), 
-            RobotContainer.controller.getRightX()
-        );
         // Drive!
-        //RobotContainer.driveTrain.newDrive(forwardSpeed, strafeSpeed, rotationSpeed);
+        drive(forwardInput, strafeInput, rotationInput);
     }
 
     /**
-     * Calculates a ramped and clipped motor speed from
-     * the controller's stick input.
+     * Drives the robot using inputs from a controller.
      * 
-     * @param input Controller stick input
-     * @param currentSpeed Current axis speed of robot
-     * @return Ramped and clipped motor speed
+     * @param forwardInput The forward input of the controller.
+     * @param strafeInput The strafe input of the controller.
+     * @param rotationInput The rotation input of the controller.
      */
-    /*
-    public static double calculateDriveAxis(double input, double currentSpeed) {
-        double i = Math.abs(input);
-        double c = Math.abs(currentSpeed);
+    public void drive(double forwardInput, double strafeInput, double rotationInput) {
+        // Apply deadbanding
+        forwardInput = MathUtil.applyDeadband(forwardInput, DriveConstants.kDEADBAND);
+        strafeInput = MathUtil.applyDeadband(strafeInput, DriveConstants.kDEADBAND);
+        rotationInput = MathUtil.applyDeadband(rotationInput, DriveConstants.kDEADBAND);
 
-        // Stop joystick drift
-        i = MathUtil.applyDeadband(i, RMap.DriveConstants.kDEADBAND);
+        // Smooth the inputs
+        double newForwardSpeed = rampInput(forwardInput, currentForwardSpeed);
+        double newStrafeSpeed = rampInput(strafeInput, currentStrafeSpeed);
+        double newRotationSpeed = rampInput(rotationInput, currentRotationSpeed);
 
-        // If our input is greater than our current speed, we should accelerate.
-        // Otherwise, we should decelerate
-        if (i != 0) {
-            if (i > c) {
-                // Accelerate
-                i = Math.min(i, c + RMap.DriveConstants.kAXIS_ACCELERATION);
-            } else {
-                // Decelerate
-                i = Math.max(i, c + RMap.DriveConstants.kAXIS_DECELERATION);
-            }
-        }
+        // Update our current speeds
+        currentForwardSpeed = newForwardSpeed;
+        currentStrafeSpeed = newStrafeSpeed;
+        currentRotationSpeed = newRotationSpeed;
 
-        // Custom speed control
-        i *= RMap.DriveConstants.kAXIS_SPEED;
-
-        // Make i take the sign(+/-) of input
-        // This allows the code to work the same
-        // for both positive and negative inputs
-        i = Math.copySign(i, input);
-
-        return i;
+        // Pass the speeds into the drive train.
+        RobotContainer.driveTrain.drive(
+            currentForwardSpeed, 
+            currentStrafeSpeed, 
+            currentRotationSpeed
+        );
     }
-    */
 
     /**
-     * Calculates a ramped and clipped motor speed from
-     * the controller's stick input. This is literally
-     * a mirror of the function above, but using
-     * rotation constants instead.
+     * Smoothly transition between a new speed
+     * and a current speed, limiting the rate we 
+     * accelerate or decelerate towards it.
      * 
-     * @param input Controller stick input
-     * @param currentSpeed Current rotation speed of robot
-     * @return Ramped and clipped motor speed
+     * @param target The target speed.
+     * @param current The current speed.
+     * @return A ramped speed between the two.
      */
-    /*
-    public static double calculateRotationAxis(double input, double currentSpeed) {
-        double i = Math.abs(input);
-        double c = Math.abs(currentSpeed);
-
-        // Stop joystick drift
-        i = MathUtil.applyDeadband(i, RMap.DriveConstants.kDEADBAND);
-
-        // If our input is greater than our current speed, we should accelerate.
-        // Otherwise, we should decelerate
-        if (i != 0) {
-            if (i > c) {
-                // Accelerate
-                i = Math.min(i, c + RMap.DriveConstants.kROTATION_ACCELERATION);
-            } else {
-                // Decelerate
-                i = Math.max(i, c + RMap.DriveConstants.kROTATION_DECELERATION);
-            }
-        }
-
-        // Custom speed control
-        i *= RMap.DriveConstants.kROTATION_SPEED;
-
-        // Make i take the sign(+/-) of input
-        // This allows the code to work the same
-        // for both positive and negative inputs
-        i = Math.copySign(i, input);
-
-        return i;
-    }
-    */
-    /**
-     * Calculates a ramped and clipped rotation speed from
-     * the controller's stick input.
-     * 
-     * @param input Controller stick input
-     * @return A ramped and clipped rotation speed
-     */
-    /*
-    public double calculateDriveTheta(double input) {
-        double rampedMotorDrive = calculateRotationAxis(input, rotationSpeed);
-        double newHeading = RobotContainer.driveTrain.getHeading();
-
-        // Check if the user is actively using stick
-        if (Math.abs(rampedMotorDrive) > 0.0) {
-            // User IS turning, update the heading
-            desiredHeading = newHeading;
-            return rampedMotorDrive;
-        } else {
-            // User IS NOT actively turning, maintain the desired rotation
-            // Apply a correction based on how far we are from it
-            // kP is how "quickly" we apply the correction
-            double kP = 0.01;
-            double error = kP * (desiredHeading - newHeading);
-            error = MathUtil.applyDeadband(error, RMap.DriveConstants.kDEADBAND);
-            return error;
-        }
-    }
-    */
-    public void newDrive(double forward, double strafe, double rotation) {
-        forward = MathUtil.applyDeadband(forward, RMap.DriveConstants.kDEADBAND);
-        strafe = MathUtil.applyDeadband(strafe, RMap.DriveConstants.kDEADBAND);
-        rotation = MathUtil.applyDeadband(rotation, RMap.DriveConstants.kDEADBAND);
-
-        double smoothForward = slewRate(forward, forwardSpeed);
-        double smoothStrafe = slewRate(strafe, strafeSpeed);
-        double smoothRotation = slewRate(rotation, rotationSpeed);
-
-        forwardSpeed = smoothForward;
-        strafeSpeed = smoothStrafe;
-        rotationSpeed = smoothRotation;
-
-        RobotContainer.driveTrain.drive(forwardSpeed, strafeSpeed, rotationSpeed);
-    }
-
-    public double slewRate(double target, double current) {
+    public double rampInput(double target, double current) {
+        // The maximum amount we can accelerate or decelerate
         double limit;
 
-        if (Math.abs(target) > Math.abs(current)) {
-            limit = RMap.DriveConstants.kAXIS_ACCELERATION;
+        // Determine if we are accelerating or decelerating
+        boolean shouldAccelerate = Math.abs(target) > Math.abs(current);
+        if (shouldAccelerate) {
+            limit = DriveConstants.kMAX_ACCELERATION;
         } else {
-            limit = RMap.DriveConstants.kAXIS_DECELERATION;
+            limit = DriveConstants.kMAX_DECELERATION;
         }
 
-        double error = target - current;
-        if (error > limit) {
+        // Get the differece between our current
+        // speed and our target speed.
+        double delta = target - current;
+
+        // Limit the rate we can accelerate or decelerate
+        boolean acceleratingTooFast = delta > limit;
+        boolean deceleratingTooFast = delta < -limit;
+
+        if (acceleratingTooFast) {
+            // Limit our acceleration
             return current + limit;
-        } else if (error < -limit) {
+        } else if (deceleratingTooFast) {
+            // Limit our deceleration
             return current - limit;
         } else {
+            // Everything is fine
+            // Just output the target speed
             return target;
         }
     }

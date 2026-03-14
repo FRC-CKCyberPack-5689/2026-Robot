@@ -16,6 +16,7 @@ import frc.robot.subsystems.Shooter;
 import org.photonvision.PhotonCamera;
 import edu.wpi.first.wpilibj.ADIS16470_IMU;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
+import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 
@@ -41,7 +42,7 @@ public class RobotContainer {
 
         gyro = new ADIS16470_IMU();
         controller = new CommandXboxController(RMap.OperatorConstants.kDRIVER_CONTROLLER_PORT);
-        camera = new PhotonCamera(null);
+        camera = new PhotonCamera("DinoCam");
 
         configureBindings();
     }
@@ -62,10 +63,17 @@ public class RobotContainer {
         
         // Intake Motor
         controller.leftTrigger().whileTrue(new TeleIntake());
+        controller.leftBumper().whileTrue(new InstantCommand(() -> {
+            RobotContainer.intake.setIntakeSpeed(RMap.IntakeConstants.kINTAKE_SPEED);
+        }));
+        controller.leftBumper().whileFalse(new InstantCommand(() -> {
+            RobotContainer.intake.setIntakeSpeed(0);
+        }));
 
         // Intake Arm Toggle
         controller.a().onTrue(new InstantCommand(() -> {
             intake.toggleArmPosition();
         }));
+        
     }
 }
