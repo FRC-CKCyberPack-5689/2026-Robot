@@ -4,6 +4,9 @@
 
 package frc.robot;
 
+import edu.wpi.first.math.interpolation.InterpolatingDoubleTreeMap;
+import edu.wpi.first.math.util.Units;
+
 /**
  * This class stores all the constant values
  * used across the robot.
@@ -23,7 +26,7 @@ public final class RMap {
         public static final int kFRONT_RIGHT_WHEEL_ID = 3;
         public static final int kBACK_LEFT_WHEEL_ID = 4;
         public static final int kBACK_RIGHT_WHEEL_ID = 5;
-        
+
         public static final int kINTAKE_ID = 7;
         public static final int kINTAKE_ARM_ID = 8;
 
@@ -49,7 +52,7 @@ public final class RMap {
         // motor when the shooter is activated.
         public static final double kINTAKE_DELAY = 0.4;
 
-        //THE AGGRIVATOR SPEED VAR
+        // THE AGGRIVATOR SPEED VAR
         public static final double kAGGRIVATOR_SPEED = -0.2;
     }
 
@@ -62,5 +65,26 @@ public final class RMap {
 
         public static final double kARM_OUTPUT_MIN = -0.25;
         public static final double kARM_OUTPUT_MAX = 0.25;
+    }
+
+    public static final class VisionConstants {
+        public static final String kCameraName = "Microsoft_LifeCam_HD-3000"; // Match your PhotonVision name
+
+        // Physical measurements (Meters)
+        public static final double kCameraHeightMeters = 0.50;
+        public static final double kTargetHeightMeters = 1.22; // 2026 Hub Height
+        public static final double kCameraPitchRadians = Units.degreesToRadians(15.0);
+
+        // Max distance to allow shooting (Meters)
+        public static final double kMaxShootDistance = 4.5;
+
+        // Interpolation Table: {Distance in Meters, Motor Velocity in RPM}
+        public static final InterpolatingDoubleTreeMap kShooterMap = new InterpolatingDoubleTreeMap();
+        static {
+            kShooterMap.put(1.0, 1500.0);
+            kShooterMap.put(2.0, 2100.0);
+            kShooterMap.put(3.0, 2800.0);
+            kShooterMap.put(4.0, 3500.0);
+        }
     }
 }
