@@ -92,7 +92,3 @@ public class Shooter extends SubsystemBase {
     public void rumble(){
     }
 }
-
-// 1.0m Middle 0.7
-// 1.74m Middle 0.8
-// 2.5m Middle 0.9

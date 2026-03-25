@@ -68,7 +68,7 @@ public final class RMap {
     }
 
     public static final class VisionConstants {
-        public static final String kCameraName = "Microsoft_LifeCam_HD-3000"; // Match your PhotonVision name
+        public static final String kCameraName = "DinoCam"; // Match your PhotonVision name
 
         // Physical measurements (Meters)
         public static final double kCameraHeightMeters = 0.50;
@@ -81,10 +81,14 @@ public final class RMap {
         // Interpolation Table: {Distance in Meters, Motor Velocity in RPM}
         public static final InterpolatingDoubleTreeMap kShooterMap = new InterpolatingDoubleTreeMap();
         static {
-            kShooterMap.put(1.0, 1500.0);
-            kShooterMap.put(2.0, 2100.0);
-            kShooterMap.put(3.0, 2800.0);
-            kShooterMap.put(4.0, 3500.0);
+            kShooterMap.put(1.0, 0.7);
+            kShooterMap.put(1.74, 0.8);
+            kShooterMap.put(2.5, 0.9);
         }
     }
 }
+
+
+// 1.0m Middle 0.7
+// 1.74m Middle 0.8
+// 2.5m Middle 0.9

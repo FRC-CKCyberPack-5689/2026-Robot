@@ -17,45 +17,45 @@ import frc.robot.RMap.VisionConstants;
 
 public class VisionSubsystem extends SubsystemBase {
 
-  private final PhotonCamera camera;
+	private final PhotonCamera camera;
 
-  public VisionSubsystem() {
-    camera = new PhotonCamera(VisionConstants.kCameraName);
-  }
+	public VisionSubsystem() {
+		camera = new PhotonCamera(VisionConstants.kCameraName);
+	}
 
-  public PhotonTrackedTarget getTarget() {
-    var alliance = DriverStation.getAlliance();
-    if (alliance.isEmpty())
-      return null;
+	public PhotonTrackedTarget getTarget() {
+		var alliance = DriverStation.getAlliance();
+		if (alliance.isEmpty())
+			return null;
 
-    int targetID = (alliance.get() == Alliance.Red) ? 10 : 26;
-    var result = camera.getLatestResult();
+		int targetID = (alliance.get() == Alliance.Red) ? 10 : 26;
+		var result = camera.getLatestResult();
 
-    if (result.hasTargets()) {
-      for (var target : result.getTargets()) {
-        if (target.getFiducialId() == targetID)
-          return target;
-      }
-    }
-    return null;
-  }
+		if (result.hasTargets()) {
+			for (var target : result.getTargets()) {
+				if (target.getFiducialId() == targetID)
+					return target;
+			}
+		}
+		return null;
+	}
 
-  public double getDistanceToTarget(PhotonTrackedTarget target) {
-    return PhotonUtils.calculateDistanceToTargetMeters(
-        VisionConstants.kCameraHeightMeters,
-        VisionConstants.kTargetHeightMeters,
-        VisionConstants.kCameraPitchRadians,
-        Units.degreesToRadians(target.getPitch()));
-  }
+	public double getDistanceToTarget(PhotonTrackedTarget target) {
+		return PhotonUtils.calculateDistanceToTargetMeters(
+				VisionConstants.kCameraHeightMeters,
+				VisionConstants.kTargetHeightMeters,
+				VisionConstants.kCameraPitchRadians,
+				Units.degreesToRadians(target.getPitch()));
+	}
 
-  public double getAdjustedYaw(PhotonTrackedTarget target) {
-    Transform3d cameraToTarget = target.getBestCameraToTarget();
-    // Calculate angle to the actual center of the bin, not just the tag face
-    return Math.toDegrees(Math.atan2(cameraToTarget.getY(), cameraToTarget.getX()));
-  }
+	public double getAdjustedYaw(PhotonTrackedTarget target) {
+		Transform3d cameraToTarget = target.getBestCameraToTarget();
+		// Calculate angle to the actual center of the bin, not just the tag face
+		return Math.toDegrees(Math.atan2(cameraToTarget.getY(), cameraToTarget.getX()));
+	}
 
-  @Override
-  public void periodic() {
-    // This method will be called once per scheduler run
-  }
+	@Override
+	public void periodic() {
+		// This method will be called once per scheduler run
+	}
 }
