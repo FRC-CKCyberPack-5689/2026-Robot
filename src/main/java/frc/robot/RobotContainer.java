@@ -4,14 +4,14 @@
 
 package frc.robot;
 
+import frc.robot.commands.AssistedShoot;
 import frc.robot.commands.TeleDrive;
 import frc.robot.commands.TeleIntake;
 import frc.robot.commands.TeleShooter;
-
 import frc.robot.subsystems.DriveTrain;
 import frc.robot.subsystems.Intake;
 import frc.robot.subsystems.Shooter;
-import frc.robot.subsystems.VisionSubsystem;
+import frc.robot.subsystems.Vision;
 
 import org.photonvision.PhotonCamera;
 import edu.wpi.first.wpilibj.ADIS16470_IMU;
@@ -24,7 +24,7 @@ public class RobotContainer {
     public static DriveTrain driveTrain;
     public static Intake intake;
     public static Shooter shooter;
-    public static VisionSubsystem vision;
+    public static Vision vision;
 
     // Other devices
     public static ADIS16470_IMU gyro;
@@ -39,11 +39,11 @@ public class RobotContainer {
         driveTrain = new DriveTrain();
         intake = new Intake();
         shooter = new Shooter();
-        vision = new VisionSubsystem();
+        vision = new Vision();
 
         gyro = new ADIS16470_IMU();
         controller = new CommandXboxController(RMap.OperatorConstants.kDRIVER_CONTROLLER_PORT);
-        camera = new PhotonCamera(RMap.VisionConstants.kCameraName);
+        camera = new PhotonCamera(RMap.VisionConstants.kCAMERA_NAME);
 
         configureBindings();
     }
@@ -60,7 +60,7 @@ public class RobotContainer {
         controller.rightTrigger().whileTrue(new TeleShooter());
 
         // Shooter Auto-Aim
-        //controller.rightBumper().whileTrue(new AutoShoot());
+        controller.rightBumper().whileTrue(new AssistedShoot());
         
         // Intake Motor
         controller.leftTrigger().whileTrue(new TeleIntake());
@@ -75,6 +75,5 @@ public class RobotContainer {
         controller.a().onTrue(new InstantCommand(() -> {
             intake.toggleArmPosition();
         }));
-        
     }
 }

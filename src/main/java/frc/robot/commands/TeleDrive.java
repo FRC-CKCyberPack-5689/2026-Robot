@@ -94,7 +94,7 @@ public class TeleDrive extends Command {
             limit = DriveConstants.kMAX_DECELERATION;
         }
 
-        // Get the differece between our current
+        // Get the difference between our current
         // speed and our target speed.
         double delta = target - current;
 

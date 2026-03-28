@@ -41,8 +41,8 @@ public class DriveTrain extends SubsystemBase {
         m_backLeft = new SparkMax(MotorIds.kBACK_LEFT_WHEEL_ID, MotorType.kBrushless);
         m_backRight = new SparkMax(MotorIds.kBACK_RIGHT_WHEEL_ID, MotorType.kBrushless);
 
-        // Motors on the right of the robot are INVERTED
-        // Motors on the left are NOT INVERTED
+        // Motors on the RIGHT of the robot are INVERTED
+        // Motors on the LEFT are NOT INVERTED
         SparkMaxConfig invertMotorConfig = new SparkMaxConfig();
         invertMotorConfig.inverted(true);
         SparkMaxConfig nonInvertedMotorConfig = new SparkMaxConfig();
@@ -107,8 +107,13 @@ public class DriveTrain extends SubsystemBase {
         return invertedGyroAngle;
     }
 
-    // Makes the robot actually drive
-    // Kind of important for a robot
+    /**
+     * Drives.
+     * 
+     * @param x The robot's x speed.
+     * @param y The robot's y speed.
+     * @param z The robot's z rotation.
+     */
     public void drive(double x, double y, double z) {
         mecanumDrive.driveCartesian(x, y, z);
     }

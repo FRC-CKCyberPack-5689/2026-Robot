@@ -12,13 +12,13 @@ import edu.wpi.first.math.util.Units;
  * used across the robot.
  */
 public final class RMap {
-    public static class OperatorConstants {
+    public static final class OperatorConstants {
         // In the USB tab of the driver station, this is the port
         // of our controller.
         public static final int kDRIVER_CONTROLLER_PORT = 0;
     }
 
-    public static class MotorIds {
+    public static final class MotorIds {
         // 0 is reserved for the power distribution
         // 1 is reserved for the RoboRIO
 
@@ -32,10 +32,10 @@ public final class RMap {
 
         public static final int kSHOOTER_INTAKE_ID = 9;
         public static final int kSHOOTER_LAUNCHER_ID = 10;
-        public static final int kSHOOTER_AGGRIVATOR_ID = 11;
+        public static final int kSHOOTER_AGGRAVATOR_ID = 11;
     }
 
-    public static class DriveConstants {
+    public static final class DriveConstants {
         // Consider values below this as completely off.
         public static final double kDEADBAND = 0.05;
 
@@ -44,19 +44,17 @@ public final class RMap {
         public static final double kMAX_DECELERATION = 0.08;
     }
 
-    public static class ShooterConstants {
+    public static final class ShooterConstants {
         public static final double kLAUNCHER_SPEED = 0.8;
         public static final double kINTAKE_SPEED = 0.8;
+        public static final double kAGGRAVATOR_SPEED = 0.2;
 
         // Delays the startup of the shooter's intake
         // motor when the shooter is activated.
         public static final double kINTAKE_DELAY = 0.4;
-
-        // THE AGGRIVATOR SPEED VAR
-        public static final double kAGGRIVATOR_SPEED = -0.2;
     }
 
-    public static class IntakeConstants {
+    public static final class IntakeConstants {
         public static final double kINTAKE_SPEED = 0.9;
 
         public static final int kARM_CURRENT_LIMIT = 27;
@@ -68,22 +66,22 @@ public final class RMap {
     }
 
     public static final class VisionConstants {
-        public static final String kCameraName = "DinoCam"; // Match your PhotonVision name
+        public static final String kCAMERA_NAME = "DinoCam";
 
         // Physical measurements (Meters)
-        public static final double kCameraHeightMeters = 0.50;
-        public static final double kTargetHeightMeters = 1.22; // 2026 Hub Height
-        public static final double kCameraPitchRadians = Units.degreesToRadians(15.0);
+        public static final double kCAMERA_HEIGHT_METERS = 0.50;
+        public static final double kTARGET_HEIGHT_METERS = 1.22; // 2026 Hub Height
+        public static final double kCAMERA_PITCH_METERS = Units.degreesToRadians(15.0);
 
         // Max distance to allow shooting (Meters)
         public static final double kMaxShootDistance = 4.5;
 
-        // Interpolation Table: {Distance in Meters, Motor Velocity in RPM}
-        public static final InterpolatingDoubleTreeMap kShooterMap = new InterpolatingDoubleTreeMap();
+        // Interpolation Table: {Distance in Meters -> Motor Velocity in RPM}
+        public static final InterpolatingDoubleTreeMap kSHOOTER_MAP = new InterpolatingDoubleTreeMap();
         static {
-            kShooterMap.put(1.0, 0.7);
-            kShooterMap.put(1.74, 0.8);
-            kShooterMap.put(2.5, 0.9);
+            kSHOOTER_MAP.put(1.0, 0.7);
+            kSHOOTER_MAP.put(1.74, 0.8);
+            kSHOOTER_MAP.put(2.5, 0.9);
         }
     }
 }

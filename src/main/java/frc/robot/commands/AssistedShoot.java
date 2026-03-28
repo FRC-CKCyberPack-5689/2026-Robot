@@ -10,17 +10,16 @@ import frc.robot.RMap;
 import frc.robot.RobotContainer;
 import frc.robot.subsystems.DriveTrain;
 import frc.robot.subsystems.Shooter;
-import frc.robot.subsystems.VisionSubsystem;
+import frc.robot.subsystems.Vision;
 
 public class AssistedShoot extends Command {
 
 	private DriveTrain m_drive;
-	private VisionSubsystem m_vision;
+	private Vision m_vision;
 	private Shooter m_Shooter;
 	private PIDController pidController;
 
 	public AssistedShoot() {
-		// Use addRequirements() here to declare subsystem dependencies.
 		addRequirements(
 				RobotContainer.driveTrain,
 				RobotContainer.shooter,
@@ -31,22 +30,25 @@ public class AssistedShoot extends Command {
 
 	// Called when the command is initially scheduled.
 	@Override
-	public void initialize() {
-	}
+	public void initialize() {}
 
 	// Called every time the scheduler runs while the command is scheduled.
 	@Override
 	public void execute() {
+		// Get a target from the camera
 		var target = m_vision.getTarget();
 
-		if (target != null) {
+		boolean targetExists = target != null;
+		if (targetExists) {
+			
 			double distance = m_vision.getDistanceToTarget(target);
+			System.out.println("distance from target: " + distance);
 
 			if (distance <= RMap.VisionConstants.kMaxShootDistance) {
 				double rotationSpeed = pidController.calculate(m_vision.getAdjustedYaw(target), 0);
 				m_drive.drive(0, 0, rotationSpeed);
 
-				double targetShootSpeed = RMap.VisionConstants.kShooterMap.get(distance);
+				double targetShootSpeed = RMap.VisionConstants.kSHOOTER_MAP.get(distance);
 				m_Shooter.setLauncherSpeed(targetShootSpeed);
 				return;
 			}
