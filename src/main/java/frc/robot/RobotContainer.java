@@ -14,6 +14,8 @@ import frc.robot.subsystems.Shooter;
 import frc.robot.subsystems.Vision;
 
 import org.photonvision.PhotonCamera;
+
+import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj.ADIS16470_IMU;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
@@ -25,6 +27,7 @@ public class RobotContainer {
     public static Intake intake;
     public static Shooter shooter;
     public static Vision vision;
+    public static PIDController pidController;
 
     // Other devices
     public static ADIS16470_IMU gyro;
@@ -40,6 +43,7 @@ public class RobotContainer {
         intake = new Intake();
         shooter = new Shooter();
         vision = new Vision();
+        pidController = new PIDController(0.001, 0, 0);
 
         gyro = new ADIS16470_IMU();
         controller = new CommandXboxController(RMap.OperatorConstants.kDRIVER_CONTROLLER_PORT);
