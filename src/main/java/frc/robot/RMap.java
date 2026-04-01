@@ -57,7 +57,7 @@ public final class RMap {
     public static final class IntakeConstants {
         public static final double kINTAKE_SPEED = 0.9;
 
-        public static final int kARM_CURRENT_LIMIT = 27;
+        public static final int kARM_CURRENT_LIMIT = 20;
         public static final double kARM_DOWN_POSITION = -0.05;
         public static final double kARM_UP_POSITION = 0.5;
 
@@ -80,13 +80,8 @@ public final class RMap {
         public static final InterpolatingDoubleTreeMap kSHOOTER_MAP = new InterpolatingDoubleTreeMap();
         static {
             kSHOOTER_MAP.put(1.0, 0.7);
-            kSHOOTER_MAP.put(1.74, 0.8);
+            kSHOOTER_MAP.put(1.74, 0.75);
             kSHOOTER_MAP.put(2.5, 0.9);
         }
     }
 }
-
-
-// 1.0m Middle 0.7
-// 1.74m Middle 0.8
-// 2.5m Middle 0.9

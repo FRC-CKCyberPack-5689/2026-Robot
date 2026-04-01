@@ -13,9 +13,11 @@
 
 package frc.robot;
 
+import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
+import edu.wpi.first.wpilibj.smartdashboard.*;
 
 public class Robot extends TimedRobot {
     private Command m_autonomousCommand;
@@ -40,6 +42,7 @@ public class Robot extends TimedRobot {
         // commands and basically handling all the functionalities of a robot
         // as it is running.
         CommandScheduler.getInstance().run();
+        SmartDashboard.putString("CameraServer", "hkuu");
     }
 
     /** This function is called once each time the robot enters Disabled mode. */

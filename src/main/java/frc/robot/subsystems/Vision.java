@@ -4,8 +4,11 @@
 
 package frc.robot.subsystems;
 
+import java.util.Optional;
+
 import org.photonvision.PhotonCamera;
 import org.photonvision.PhotonUtils;
+import org.photonvision.targeting.PhotonPipelineResult;
 import org.photonvision.targeting.PhotonTrackedTarget;
 
 import edu.wpi.first.math.geometry.Transform3d;
@@ -17,11 +20,7 @@ import frc.robot.RobotContainer;
 import frc.robot.RMap.VisionConstants;
 
 public class Vision extends SubsystemBase {
-	private final PhotonCamera camera;
-
-	public Vision() {
-		camera = RobotContainer.camera;
-	}
+	public Vision() {}
 	
 	/**
 	 * Looks for a target within the camera's view.
@@ -30,7 +29,10 @@ public class Vision extends SubsystemBase {
 	 */
 	public PhotonTrackedTarget getTarget() {
 		// Get the current alliance
-		var alliance = DriverStation.getAlliance();
+		// We used to have Blue Alliance in the drive station, but we were facing
+		// towards a red target (10). This has been switched now, but
+		// we aren't sure yet if this fix works.
+		Optional<Alliance> alliance = DriverStation.getAlliance();
 		if (alliance.isEmpty()) {
 			return null;
 		}
@@ -39,11 +41,12 @@ public class Vision extends SubsystemBase {
 		int targetID = (alliance.get() == Alliance.Red) ? 10 : 26;
 
 		// Check if our camera can see any targets
-		var result = camera.getLatestResult();
+		PhotonPipelineResult result = RobotContainer.camera.getLatestResult();
+		
 		if (result.hasTargets()) {
 			// Check each target to see if it matches
 			// the one we are looking for.
-			for (var target : result.getTargets()) {
+			for (PhotonTrackedTarget target : result.getTargets()) {
 				if (target.getFiducialId() == targetID) {
 					return target;
 				}
@@ -81,7 +84,7 @@ public class Vision extends SubsystemBase {
 	 */
 	public double getAdjustedYaw(PhotonTrackedTarget target) {
 		Transform3d cameraToTarget = target.getBestCameraToTarget();
-
+		
 		double adjustedYawRadians = Math.atan2(cameraToTarget.getY(), cameraToTarget.getX());
 		return Math.toDegrees(adjustedYawRadians);
 	}
