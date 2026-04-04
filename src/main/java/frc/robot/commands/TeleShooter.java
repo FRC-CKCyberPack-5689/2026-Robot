@@ -25,17 +25,17 @@ public class TeleShooter extends Command {
     @Override
     public void execute() {
         // Start the launcher immediately
-        RobotContainer.shooter.setLauncherSpeed(-ShooterConstants.kLAUNCHER_SPEED);
+        RobotContainer.shooter.setLauncherSpeed(ShooterConstants.kLAUNCHER_SPEED);
 
         // Start the aggravator immediately
-        RobotContainer.shooter.setAggravatorSpeed(-ShooterConstants.kAGGRAVATOR_SPEED);
+        RobotContainer.shooter.setAggravatorSpeed(ShooterConstants.kAGGRAVATOR_SPEED);
         
         // Delay the shooter's intake
         double currentTime = Timer.getFPGATimestamp();
         double deltaTime = currentTime - startTime;
 
         if (deltaTime > ShooterConstants.kINTAKE_DELAY) {
-            RobotContainer.shooter.setIntakeSpeed(-ShooterConstants.kINTAKE_SPEED);
+            RobotContainer.shooter.setIntakeSpeed(ShooterConstants.kINTAKE_SPEED);
         }
     }
 

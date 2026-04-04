@@ -82,7 +82,7 @@ public class TeleDrive extends Command {
      * @param current The current speed.
      * @return A ramped speed between the two.
      */
-    public double rampInput(double target, double current) {
+    public static double rampInput(double target, double current) {
         // The maximum amount we can accelerate or decelerate
         double limit;
 

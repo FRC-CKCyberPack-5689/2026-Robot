@@ -43,7 +43,7 @@ public class RobotContainer {
         intake = new Intake();
         shooter = new Shooter();
         vision = new Vision();
-        pidController = new PIDController(0.001, 0, 0);
+        pidController = new PIDController(0.018, 0, 0);
 
         gyro = new ADIS16470_IMU();
         controller = new CommandXboxController(RMap.OperatorConstants.kDRIVER_CONTROLLER_PORT);
@@ -63,17 +63,24 @@ public class RobotContainer {
         // Shooter Activation
         controller.rightTrigger().whileTrue(new TeleShooter());
 
-        // Shooter Auto-Aim
+        // Shooter Assisted-Aim
         controller.rightBumper().whileTrue(new AssistedShoot());
         
-        // Intake Motor
-        controller.leftTrigger().whileTrue(new TeleIntake());
+        // Shooter Unjammer
         controller.leftBumper().whileTrue(new InstantCommand(() -> {
-            RobotContainer.intake.setIntakeSpeed(RMap.IntakeConstants.kINTAKE_SPEED);
-        }));
+            RobotContainer.shooter.unjammer_active = true;
+            RobotContainer.shooter.setAggravatorSpeed(-RMap.ShooterConstants.kAGGRAVATOR_SPEED);
+        }).andThen(new InstantCommand(() -> {
+            RobotContainer.shooter.unjammer_active = false;
+        })));
         controller.leftBumper().whileFalse(new InstantCommand(() -> {
-            RobotContainer.intake.setIntakeSpeed(0);
+            if (!RobotContainer.shooter.unjammer_active) {
+                RobotContainer.shooter.setAggravatorSpeed(0);
+            }
         }));
+        
+        // Manual Intake
+        controller.leftTrigger().whileTrue(new TeleIntake());
 
         // Intake Arm Toggle
         controller.a().onTrue(new InstantCommand(() -> {

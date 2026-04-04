@@ -45,21 +45,25 @@ public final class RMap {
     }
 
     public static final class ShooterConstants {
-        public static final double kLAUNCHER_SPEED = 0.8;
+        public static final double kLAUNCHER_SPEED = 0.6;
         public static final double kINTAKE_SPEED = 0.8;
         public static final double kAGGRAVATOR_SPEED = 0.2;
 
         // Delays the startup of the shooter's intake
         // motor when the shooter is activated.
         public static final double kINTAKE_DELAY = 0.4;
+
+        // Delays the startup of the shooter's intake and aggravator
+        // motor when assisted shoot is activated.
+        public static final double kASSISTED_DELAY = 0.4;
     }
 
     public static final class IntakeConstants {
         public static final double kINTAKE_SPEED = 0.9;
 
-        public static final int kARM_CURRENT_LIMIT = 20;
-        public static final double kARM_DOWN_POSITION = -0.05;
-        public static final double kARM_UP_POSITION = 0.5;
+        public static final int kARM_CURRENT_LIMIT = 32;
+        public static final double kARM_DOWN_POWER = -0.2;
+        public static final double kARM_UP_POWER = 0.5;
 
         public static final double kARM_OUTPUT_MIN = -0.25;
         public static final double kARM_OUTPUT_MAX = 0.25;
@@ -79,9 +83,9 @@ public final class RMap {
         // Interpolation Table: {Distance in Meters -> Motor Velocity in RPM}
         public static final InterpolatingDoubleTreeMap kSHOOTER_MAP = new InterpolatingDoubleTreeMap();
         static {
-            kSHOOTER_MAP.put(1.0, 0.7);
-            kSHOOTER_MAP.put(1.74, 0.75);
-            kSHOOTER_MAP.put(2.5, 0.9);
+            kSHOOTER_MAP.put(1.5, 0.55);
+            kSHOOTER_MAP.put(2.08, 0.6);
+            kSHOOTER_MAP.put(3.13, 0.67);
         }
     }
 }

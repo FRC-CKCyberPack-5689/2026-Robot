@@ -58,9 +58,9 @@ public class Intake extends SubsystemBase {
         armIsUp = !armIsUp;
 
         if (armIsUp) {
-            position = IntakeConstants.kARM_UP_POSITION;
+            position = IntakeConstants.kARM_UP_POWER;
         } else {
-            position = IntakeConstants.kARM_DOWN_POSITION;
+            position = IntakeConstants.kARM_DOWN_POWER;
         }
     }
 
@@ -74,9 +74,9 @@ public class Intake extends SubsystemBase {
         armIsUp = isUp;
 
         if (armIsUp) {
-            position = IntakeConstants.kARM_UP_POSITION;
+            position = IntakeConstants.kARM_UP_POWER;
         } else {
-            position = IntakeConstants.kARM_DOWN_POSITION;
+            position = IntakeConstants.kARM_DOWN_POWER;
         }
     }
 

@@ -1,8 +1,12 @@
 package frc.robot.subsystems;
 
 import com.revrobotics.spark.SparkLowLevel.MotorType;
+import com.revrobotics.PersistMode;
+import com.revrobotics.ResetMode;
 import com.revrobotics.spark.SparkFlex;
 import com.revrobotics.spark.SparkMax;
+import com.revrobotics.spark.config.SparkMaxConfig;
+
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.RMap.MotorIds;
 
@@ -11,11 +15,31 @@ public class Shooter extends SubsystemBase {
     private SparkFlex m_launcher;
     private SparkFlex m_aggravator;
 
+    public boolean unjammer_active;
+
     // Create a new shooter
     public Shooter() {
+        // Create motors
         m_intake = new SparkMax(MotorIds.kSHOOTER_INTAKE_ID, MotorType.kBrushless);
         m_launcher = new SparkFlex(MotorIds.kSHOOTER_LAUNCHER_ID, MotorType.kBrushless);
         m_aggravator = new SparkFlex(MotorIds.kSHOOTER_AGGRAVATOR_ID, MotorType.kBrushless);
+
+        // Invert the motors
+        SparkMaxConfig invertMotorConfig = new SparkMaxConfig();
+        invertMotorConfig.inverted(true);
+
+        m_intake.configure(invertMotorConfig, 
+            ResetMode.kResetSafeParameters, PersistMode.kPersistParameters
+        );
+        m_launcher.configure(invertMotorConfig, 
+            ResetMode.kResetSafeParameters, PersistMode.kPersistParameters
+        );
+        m_aggravator.configure(invertMotorConfig, 
+            ResetMode.kResetSafeParameters, PersistMode.kPersistParameters
+        );
+
+        // Unjammer starts as inactive
+        unjammer_active = false;
     }
 
     /**

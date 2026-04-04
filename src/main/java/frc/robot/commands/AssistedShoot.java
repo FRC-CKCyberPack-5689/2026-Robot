@@ -4,19 +4,16 @@
 
 package frc.robot.commands;
 
-import org.photonvision.targeting.PhotonPipelineResult;
 import org.photonvision.targeting.PhotonTrackedTarget;
-
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.RMap.ShooterConstants;
 import frc.robot.RMap.VisionConstants;
-import frc.robot.RMap;
-import frc.robot.Robot;
 import frc.robot.RobotContainer;
 
 public class AssistedShoot extends Command {
-	// Same thing as with TeleShooter
+	private double currentForwardSpeed;
+    private double currentStrafeSpeed;
 	private double startTime;
 
 	public AssistedShoot() {
@@ -33,7 +30,6 @@ public class AssistedShoot extends Command {
 		startTime = Timer.getFPGATimestamp();
 	}
 
-	// Called every time the scheduler runs while the command is scheduled.
 	@Override
 	public void execute() {
 		// Initialize some defaults
@@ -45,36 +41,51 @@ public class AssistedShoot extends Command {
 
 		// Check if a valid target exists
 		if (target != null) {
+			// If it does exist, start aiming towards the target
+			// Delay the aggravator and intake to allow the launcher to spin up
+			double currentTime = Timer.getFPGATimestamp();
+			double deltaTime = currentTime - startTime;
+
+			if (deltaTime > ShooterConstants.kASSISTED_DELAY) {
+				RobotContainer.shooter.setAggravatorSpeed(ShooterConstants.kAGGRAVATOR_SPEED);
+				RobotContainer.shooter.setIntakeSpeed(ShooterConstants.kINTAKE_SPEED);
+			}
+
 			// Get the distance to the target.
 			double distance = RobotContainer.vision.getDistanceToTarget(target);
 
-			System.out.println("Distance to target: " + distance);
-
 			// Ensure its within our shooting range.
 			if (distance <= VisionConstants.kMaxShootDistance) {
-				// Update our speeds to match the target 8
+				// Update our speeds to match the target
 				double adjustedYaw = RobotContainer.vision.getAdjustedYaw(target);
 				rotationSpeed = RobotContainer.pidController.calculate(adjustedYaw, 0);
 				launcherSpeed = VisionConstants.kSHOOTER_MAP.get(distance);
-
-				System.out.println("Rotation speed: " + rotationSpeed);
-				System.out.println("Launcher speed: " + launcherSpeed);
 			}
-		} else {
-			System.out.println("No target");
 		}
-		
-		RobotContainer.shooter.setLauncherSpeed(-launcherSpeed);
-		RobotContainer.shooter.setAggravatorSpeed(-RMap.ShooterConstants.kAGGRAVATOR_SPEED);
-		RobotContainer.driveTrain.drive(0, 0, rotationSpeed);
 
-        // Delay the shooter's intake
-        double currentTime = Timer.getFPGATimestamp();
-        double deltaTime = currentTime - startTime;
+		// Handle the launcher motor
+		RobotContainer.shooter.setLauncherSpeed(launcherSpeed);
 
-        if (deltaTime > ShooterConstants.kINTAKE_DELAY) {
-            RobotContainer.shooter.setIntakeSpeed(-ShooterConstants.kINTAKE_SPEED);
-        }
+		// Handle driving
+		// Get inputs from the controller
+		double forwardInput = -RobotContainer.controller.getLeftY();
+        double strafeInput = RobotContainer.controller.getLeftX();
+
+		// Smooth the inputs
+        double newForwardSpeed = TeleDrive.rampInput(forwardInput, currentForwardSpeed);
+        double newStrafeSpeed = TeleDrive.rampInput(strafeInput, currentStrafeSpeed);
+
+        // Update our current speeds
+        currentForwardSpeed = newForwardSpeed;
+        currentStrafeSpeed = newStrafeSpeed;
+
+        // Pass the speeds into the drive train
+		// Use the rotation speed that matches the target
+        RobotContainer.driveTrain.drive(
+            currentForwardSpeed, 
+            currentStrafeSpeed, 
+            rotationSpeed
+        );
 	}
 
 	// Called once the command ends or is interrupted.
