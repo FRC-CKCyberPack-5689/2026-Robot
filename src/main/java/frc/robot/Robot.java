@@ -64,11 +64,14 @@ public class Robot extends TimedRobot {
     public void autonomousPeriodic() {}
 
     @Override
+   
     public void teleopInit() {
         // Stop the active autonomous command as soon as teleop begins
         if (m_autonomousCommand != null) {
             m_autonomousCommand.cancel();
         }
+
+        SmartDashboard.putNumber("STUPID THING",0);
     }
 
     /** This function is called periodically during operator control. */

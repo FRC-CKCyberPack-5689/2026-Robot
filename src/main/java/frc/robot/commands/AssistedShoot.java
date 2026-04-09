@@ -55,7 +55,7 @@ public class AssistedShoot extends Command {
 			double distance = RobotContainer.vision.getDistanceToTarget(target);
 
 			// Ensure its within our shooting range.
-			if (distance <= VisionConstants.kMaxShootDistance) {
+			if (distance <= VisionConstants.kMAX_SHOOT_DISTANCE) {
 				// Update our speeds to match the target
 				double adjustedYaw = RobotContainer.vision.getAdjustedYaw(target);
 				rotationSpeed = RobotContainer.pidController.calculate(adjustedYaw, 0);

@@ -45,9 +45,9 @@ public final class RMap {
     }
 
     public static final class ShooterConstants {
-        public static final double kLAUNCHER_SPEED = 0.6;
+        public static final double kLAUNCHER_SPEED = 0.65;
         public static final double kINTAKE_SPEED = 0.8;
-        public static final double kAGGRAVATOR_SPEED = 0.2;
+        public static final double kAGGRAVATOR_SPEED = 0.4;
 
         // Delays the startup of the shooter's intake
         // motor when the shooter is activated.
@@ -55,13 +55,13 @@ public final class RMap {
 
         // Delays the startup of the shooter's intake and aggravator
         // motor when assisted shoot is activated.
-        public static final double kASSISTED_DELAY = 0.4;
+        public static final double kASSISTED_DELAY = 0.7;
     }
 
     public static final class IntakeConstants {
         public static final double kINTAKE_SPEED = 0.9;
 
-        public static final int kARM_CURRENT_LIMIT = 32;
+        public static final int kARM_CURRENT_LIMIT = 35;
         public static final double kARM_DOWN_POWER = -0.2;
         public static final double kARM_UP_POWER = 0.5;
 
@@ -73,19 +73,21 @@ public final class RMap {
         public static final String kCAMERA_NAME = "DinoCam";
 
         // Physical measurements (Meters)
-        public static final double kCAMERA_HEIGHT_METERS = 0.50;
+        public static final double kCAMERA_HEIGHT_METERS = 0.67;
         public static final double kTARGET_HEIGHT_METERS = 1.22; // 2026 Hub Height
         public static final double kCAMERA_PITCH_METERS = Units.degreesToRadians(15.0);
 
         // Max distance to allow shooting (Meters)
-        public static final double kMaxShootDistance = 4.5;
+        public static final double kMAX_SHOOT_DISTANCE = 5.0;
 
         // Interpolation Table: {Distance in Meters -> Motor Velocity in RPM}
         public static final InterpolatingDoubleTreeMap kSHOOTER_MAP = new InterpolatingDoubleTreeMap();
         static {
-            kSHOOTER_MAP.put(1.5, 0.55);
-            kSHOOTER_MAP.put(2.08, 0.6);
-            kSHOOTER_MAP.put(3.13, 0.67);
+            kSHOOTER_MAP.put(0.74, 0.65);
+            kSHOOTER_MAP.put(1.03, 0.71);
+            kSHOOTER_MAP.put(1.5, 0.77);
+            kSHOOTER_MAP.put(2.0, 0.86);
+            kSHOOTER_MAP.put(2.5, 0.9);
         }
     }
 }

@@ -1,6 +1,9 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj.Timer;
+import edu.wpi.first.wpilibj.shuffleboard.BuiltInWidgets;
+import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.RMap.ShooterConstants;
 import frc.robot.RobotContainer;
@@ -25,7 +28,9 @@ public class TeleShooter extends Command {
     @Override
     public void execute() {
         // Start the launcher immediately
-        RobotContainer.shooter.setLauncherSpeed(ShooterConstants.kLAUNCHER_SPEED);
+        RobotContainer.shooter.setLauncherSpeed(0.86);
+        
+        
 
         // Start the aggravator immediately
         RobotContainer.shooter.setAggravatorSpeed(ShooterConstants.kAGGRAVATOR_SPEED);

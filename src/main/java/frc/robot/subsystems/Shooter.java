@@ -15,6 +15,7 @@ public class Shooter extends SubsystemBase {
     private SparkFlex m_launcher;
     private SparkFlex m_aggravator;
 
+
     public boolean unjammer_active;
 
     // Create a new shooter
@@ -27,8 +28,10 @@ public class Shooter extends SubsystemBase {
         // Invert the motors
         SparkMaxConfig invertMotorConfig = new SparkMaxConfig();
         invertMotorConfig.inverted(true);
+        SparkMaxConfig nonInvertedMotorConfig = new SparkMaxConfig();
+        nonInvertedMotorConfig.inverted(false);
 
-        m_intake.configure(invertMotorConfig, 
+        m_intake.configure(nonInvertedMotorConfig, 
             ResetMode.kResetSafeParameters, PersistMode.kPersistParameters
         );
         m_launcher.configure(invertMotorConfig, 

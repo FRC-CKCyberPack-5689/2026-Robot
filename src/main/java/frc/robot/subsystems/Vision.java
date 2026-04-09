@@ -5,12 +5,9 @@
 package frc.robot.subsystems;
 
 import java.util.Optional;
-
-import org.photonvision.PhotonCamera;
 import org.photonvision.PhotonUtils;
 import org.photonvision.targeting.PhotonPipelineResult;
 import org.photonvision.targeting.PhotonTrackedTarget;
-
 import edu.wpi.first.math.geometry.Transform3d;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.DriverStation;
@@ -29,9 +26,8 @@ public class Vision extends SubsystemBase {
 	 */
 	public PhotonTrackedTarget getTarget() {
 		// Get the current alliance
-		// We used to have Blue Alliance in the drive station, but we were facing
-		// towards a red target (10). This has been switched now, but
-		// we aren't sure yet if this fix works.
+		// When doing testing, make sure the alliance is set
+		// correctly in the driver station!
 		Optional<Alliance> alliance = DriverStation.getAlliance();
 		if (alliance.isEmpty()) {
 			return null;
