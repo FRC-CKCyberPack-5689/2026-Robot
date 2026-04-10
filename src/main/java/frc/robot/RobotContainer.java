@@ -70,12 +70,14 @@ public class RobotContainer {
         controller.leftBumper().whileTrue(new InstantCommand(() -> {
             RobotContainer.shooter.unjammer_active = true;
             RobotContainer.shooter.setAggravatorSpeed(-RMap.ShooterConstants.kAGGRAVATOR_SPEED);
+            RobotContainer.intake.setIntakeSpeed(RMap.ShooterConstants.kINTAKE_SPEED);
         }).andThen(new InstantCommand(() -> {
             RobotContainer.shooter.unjammer_active = false;
         })));
         controller.leftBumper().whileFalse(new InstantCommand(() -> {
             if (!RobotContainer.shooter.unjammer_active) {
                 RobotContainer.shooter.setAggravatorSpeed(0);
+                RobotContainer.intake.setIntakeSpeed(0);
             }
         }));
         
@@ -85,6 +87,15 @@ public class RobotContainer {
         // Intake Arm Toggle
         controller.a().onTrue(new InstantCommand(() -> {
             intake.toggleArmPosition();
+        }));
+
+        // Launcher speed adjustment
+        controller.x().onTrue(new InstantCommand(() -> {
+            TeleShooter.decrementLauncherSpeed();
+        }));
+
+        controller.b().onTrue(new InstantCommand(() -> {
+            TeleShooter.incrementLauncherSpeed();
         }));
     }
 }

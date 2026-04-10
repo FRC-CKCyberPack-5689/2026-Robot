@@ -16,7 +16,7 @@ package frc.robot;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
-import edu.wpi.first.wpilibj.smartdashboard.*;
+import frc.robot.commands.AutoSequence;
 
 public class Robot extends TimedRobot {
     private Command m_autonomousCommand;
@@ -41,7 +41,6 @@ public class Robot extends TimedRobot {
         // commands and basically handling all the functionalities of a robot
         // as it is running.
         CommandScheduler.getInstance().run();
-        SmartDashboard.putString("CameraServer", "hkuu");
     }
 
     /** This function is called once each time the robot enters Disabled mode. */
@@ -56,7 +55,8 @@ public class Robot extends TimedRobot {
     /** This autonomous runs the autonomous command selected by your {@link RobotContainer} class. */
     @Override
     public void autonomousInit() {
-    
+        // m_autonomousCommand = new AutoSequence();
+        
     }
 
     /** This function is called periodically during autonomous. */
@@ -70,8 +70,6 @@ public class Robot extends TimedRobot {
         if (m_autonomousCommand != null) {
             m_autonomousCommand.cancel();
         }
-
-        SmartDashboard.putNumber("STUPID THING",0);
     }
 
     /** This function is called periodically during operator control. */

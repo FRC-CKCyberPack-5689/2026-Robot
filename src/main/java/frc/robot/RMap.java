@@ -45,13 +45,19 @@ public final class RMap {
     }
 
     public static final class ShooterConstants {
-        public static final double kLAUNCHER_SPEED = 0.65;
+        public static final double[] kLAUNCHER_SPEED_OPTIONS = {
+            0.65,
+            0.71,
+            0.76,
+            0.86,
+            0.9,
+        };
         public static final double kINTAKE_SPEED = 0.8;
         public static final double kAGGRAVATOR_SPEED = 0.4;
 
         // Delays the startup of the shooter's intake
         // motor when the shooter is activated.
-        public static final double kINTAKE_DELAY = 0.4;
+        public static final double kMANUAL_DELAY = 0.4;
 
         // Delays the startup of the shooter's intake and aggravator
         // motor when assisted shoot is activated.
@@ -85,7 +91,7 @@ public final class RMap {
         static {
             kSHOOTER_MAP.put(0.74, 0.65);
             kSHOOTER_MAP.put(1.03, 0.71);
-            kSHOOTER_MAP.put(1.5, 0.77);
+            kSHOOTER_MAP.put(1.5, 0.76);
             kSHOOTER_MAP.put(2.0, 0.86);
             kSHOOTER_MAP.put(2.5, 0.9);
         }

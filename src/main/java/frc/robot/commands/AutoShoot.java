@@ -1,23 +1,20 @@
-// Copyright (c) FIRST and other WPILib contributors.
-// Open Source Software; you can modify and/or share it under the terms of
-// the WPILib BSD license file in the root directory of this project.
-
 package frc.robot.commands;
 
 import org.photonvision.targeting.PhotonTrackedTarget;
+
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.RMap.ShooterConstants;
 import frc.robot.RMap.VisionConstants;
 import frc.robot.RobotContainer;
 
-public class AssistedShoot extends Command {
-	private double currentForwardSpeed;
-    private double currentStrafeSpeed;
-	private double currentLauncherSpeed;
-	private double startTime;
+// Basically just a copy of AssistedShoot with the extra
+// driving stuff stripped out.
 
-	public AssistedShoot() {
+public class AutoShoot extends Command {
+    private double startTime;
+
+	public AutoShoot() {
 		addRequirements(
 			RobotContainer.driveTrain,
 			RobotContainer.shooter,
@@ -28,13 +25,14 @@ public class AssistedShoot extends Command {
 	// Called when the command is initially scheduled.
 	@Override
 	public void initialize() {
-		currentLauncherSpeed = 0;
 		startTime = Timer.getFPGATimestamp();
 	}
 
-	@Override
+    @Override
 	public void execute() {
+		/* 
 		// Initialize some defaults
+		double launcherSpeed = 0;
 		double rotationSpeed = 0;
 
 		// Get a target from the camera
@@ -60,33 +58,22 @@ public class AssistedShoot extends Command {
 				// Update our speeds to match the target
 				double adjustedYaw = RobotContainer.vision.getAdjustedYaw(target);
 				rotationSpeed = RobotContainer.pidController.calculate(adjustedYaw, 0);
-				currentLauncherSpeed = VisionConstants.kSHOOTER_MAP.get(distance);
+				launcherSpeed = VisionConstants.kSHOOTER_MAP.get(distance);
 			}
 		}
 
 		// Handle the launcher motor
-		RobotContainer.shooter.setLauncherSpeed(currentLauncherSpeed);
-
-		// Handle driving
-		// Get inputs from the controller
-		double forwardInput = -RobotContainer.controller.getLeftY();
-        double strafeInput = RobotContainer.controller.getLeftX();
- 
-		// Smooth the inputs
-        double newForwardSpeed = TeleDrive.rampInput(forwardInput, currentForwardSpeed);
-        double newStrafeSpeed = TeleDrive.rampInput(strafeInput, currentStrafeSpeed);
-
-        // Update our current speeds
-        currentForwardSpeed = newForwardSpeed;
-        currentStrafeSpeed = newStrafeSpeed;
+		RobotContainer.shooter.setLauncherSpeed(launcherSpeed);
 
         // Pass the speeds into the drive train
 		// Use the rotation speed that matches the target
         RobotContainer.driveTrain.drive(
-            currentForwardSpeed, 
-            currentStrafeSpeed, 
+            0, 
+            0, 
             rotationSpeed
         );
+		*/
+		RobotContainer.shooter.setLauncherSpeed(0.65);
 	}
 
 	// Called once the command ends or is interrupted.
@@ -95,11 +82,5 @@ public class AssistedShoot extends Command {
 		RobotContainer.shooter.setIntakeSpeed(0);
         RobotContainer.shooter.setLauncherSpeed(0);
         RobotContainer.shooter.setAggravatorSpeed(0);
-	}
-
-	// Returns true when the command should end.
-	@Override
-	public boolean isFinished() {
-		return false;
 	}
 }

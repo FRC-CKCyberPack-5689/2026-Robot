@@ -22,7 +22,7 @@ public class Vision extends SubsystemBase {
 	/**
 	 * Looks for a target within the camera's view.
 	 * 
-	 * @return Information about a valid target.
+	 * @return Information aboutd a valid target.
 	 */
 	public PhotonTrackedTarget getTarget() {
 		// Get the current alliance
