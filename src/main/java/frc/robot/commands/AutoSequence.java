@@ -5,15 +5,14 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
+import frc.robot.RMap.DriveConstants;
 
-// NOTE:  Consider using this command inline, rather than writing a subclass.  For more
-// information, see:
-// https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
 public class AutoSequence extends SequentialCommandGroup {
-  /** Creates a new AutoSequence. */
-  public AutoSequence() {
-    // Add your commands in the addCommands() call, e.g.
-    // addCommands(new FooCommand(), new BarCommand());
-    addCommands(new AutoShoot());
-  }
+	public AutoSequence() {
+		// Run all the commands contained within, one after the other.
+		addCommands(
+			new AutoDrive().withTimeout(DriveConstants.kAUTO_DRIVE_MAX_TIME), 
+			new AutoShoot()
+		);
+	}
 }

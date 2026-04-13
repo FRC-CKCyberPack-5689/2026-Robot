@@ -30,7 +30,6 @@ public class AutoShoot extends Command {
 
     @Override
 	public void execute() {
-		/* 
 		// Initialize some defaults
 		double launcherSpeed = 0;
 		double rotationSpeed = 0;
@@ -72,8 +71,7 @@ public class AutoShoot extends Command {
             0, 
             rotationSpeed
         );
-		*/
-		RobotContainer.shooter.setLauncherSpeed(0.65);
+		// RobotContainer.shooter.setLauncherSpeed(0.65);
 	}
 
 	// Called once the command ends or is interrupted.

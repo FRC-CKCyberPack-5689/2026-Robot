@@ -21,6 +21,7 @@ public final class RMap {
     public static final class MotorIds {
         // 0 is reserved for the power distribution
         // 1 is reserved for the RoboRIO
+        // 6 is not there for some weird reason
 
         public static final int kFRONT_LEFT_WHEEL_ID = 2;
         public static final int kFRONT_RIGHT_WHEEL_ID = 3;
@@ -42,6 +43,10 @@ public final class RMap {
         // Controls the sensitivity of the robot's movement.
         public static final double kMAX_ACCELERATION = 0.04;
         public static final double kMAX_DECELERATION = 0.08;
+
+        // Auto drive settings
+        public static final double kAUTO_DRIVE_MAX_TIME = 3.0;
+        public static final double kAUTO_DRIVE_SPEED = 0.3;
     }
 
     public static final class ShooterConstants {
@@ -55,8 +60,8 @@ public final class RMap {
         public static final double kINTAKE_SPEED = 0.8;
         public static final double kAGGRAVATOR_SPEED = 0.4;
 
-        // Delays the startup of the shooter's intake
-        // motor when the shooter is activated.
+        // Delays the startup of the shooter's intake and aggravator
+        // motor when the shooter is activated manually.
         public static final double kMANUAL_DELAY = 0.4;
 
         // Delays the startup of the shooter's intake and aggravator
@@ -76,9 +81,10 @@ public final class RMap {
     }
 
     public static final class VisionConstants {
+        // The name of the camera, configured in the PhotonVision dashboard
         public static final String kCAMERA_NAME = "DinoCam";
 
-        // Physical measurements (Meters)
+        // Physical measurements
         public static final double kCAMERA_HEIGHT_METERS = 0.67;
         public static final double kTARGET_HEIGHT_METERS = 1.22; // 2026 Hub Height
         public static final double kCAMERA_PITCH_METERS = Units.degreesToRadians(15.0);
@@ -86,7 +92,7 @@ public final class RMap {
         // Max distance to allow shooting (Meters)
         public static final double kMAX_SHOOT_DISTANCE = 5.0;
 
-        // Interpolation Table: {Distance in Meters -> Motor Velocity in RPM}
+        // Interpolation Table: {Distance in Meters -> Motor Velocity}
         public static final InterpolatingDoubleTreeMap kSHOOTER_MAP = new InterpolatingDoubleTreeMap();
         static {
             kSHOOTER_MAP.put(0.74, 0.65);
